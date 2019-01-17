@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -278,6 +279,20 @@ class FilledTextFields extends React.Component {
       </form>
     );
   }
+=======
+import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
+
+class Teacher extends React.Component{
+    render(){
+        return(
+            <div>
+       <PersistentDrawerLeft />
+       <h1>Teacher</h1>
+            
+            </div>
+        );
+    }
+>>>>>>> bae50f098fe4ba5c3c1cd307a876db6a5f4a7bea
 }
 
 FilledTextFields.propTypes = {

@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <Router>
          <div>
-       <PersistentDrawerLeft />
+           <PersistentDrawerLeft />
      
       <Switch>
         <Route exact path="/Student" component={Student} />
