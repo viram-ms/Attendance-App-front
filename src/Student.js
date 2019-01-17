@@ -1,127 +1,122 @@
 import React from 'react';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
-import OutlinedTextFields from './Components/OutlinedTextFields';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
+import {Grid, TextField, Paper, Button, Typography} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import {createMuiTheme ,MuiThemeProvider} from '@material-ui/core';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import PropTypes, { nominalTypeHack } from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-const styles = theme => ({
-    root: {
-      
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-   
-    formControl: {
-      margin: theme.spacing.unit,
-      minWidth: 200,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing.unit * 2,
-    },
-    button:{
-      
-        padding:20,
-        margin:20,
-        width:300,
-        '&:hover': {
-            backgroundColor:'black',
+const theme=createMuiTheme({
+    typography: {
+        useNextVariants: true,
+      },
+    palette:{
+        primary:{
+            main:"#445DFF"
+        },
+        secondary:{
+            main:"#C1D37F"
         }
-    },
-    paper: {
-      display:'flex',
-      width:10,
-      padding: theme.spacing.unit * 2,
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-      backgroundColor:'transparent',
-      boxShadow:'0 0 0 0'
-      
-      
-    },
-    intro:{
-      display:'flex'
     }
+}
+
+);
+const styles = theme => ({
+    button: {
+      margin: theme.spacing.unit,
+    },
+    input: {
+      display: 'none',
+    },
   });
 
 class Student extends React.Component{
-
-    state = {
-        age: '',
-       
-      };
-    
-    
-    
-      handleChange = event => {
+    state={ age:''}
+    handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
       };
     render(){
-        const { classes } = this.props;
         return(
-            <div className="App-header">
-       <PersistentDrawerLeft />
 
-          
-             <h1 className="title">Student</h1>
-       
-           
+            <Grid container justify="center" spacing={24}>
+            <Grid item>
+            <Paper style={{width:623}}>
+            <h2 align="center">STUDENT</h2>
 
-            
-         <TextField style={{width:500}}
-          id="subject"
-          label="Subject"
-          type="text"
-          name="subject"
-          margin="normal"
-          variant="outlined"
-        />
-        <form className={classes.root} autoComplete="off">
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="age-simple">Semester</InputLabel>
-          <Select
+                <MuiThemeProvider theme={theme}>
+            <form>
+            <Grid container justify="center" spacing={24}>
+            <Grid item xs={7}>
+            <TextField
+            id="outlined-name"
+            label="First Name"
+            value={this.state.name}
+            margin="normal"
+            variant="outlined"
+            fullWidth />
+            </Grid>
+            {/* <Grid item xs={5}>
+            </Grid>  */}
+            <Grid item xs={7}>
+            <TextField
+            id="outlined-name"
+            label="Last Name"
+            value={this.state.name}
+            margin="normal"
+            variant="outlined"
+            fullWidth />
+            </Grid>
+     
+            <Grid item xs={7}>
+            <TextField
+            id="outlined-name"
+            label="Sap Id"
+            value={this.state.name}
+            margin="normal"
+            variant="outlined"
+            fullWidth />
+            </Grid>
+            <Grid item xs={7}>
+            <FormControl >
+          <InputLabel htmlFor="age-simple" style={{width:850}}>Divison</InputLabel>
+          <Select style={{width:150}}
             value={this.state.age}
             onChange={this.handleChange}
             inputProps={{
               name: 'age',
               id: 'age-simple',
             }}
-          >
-            
-            <MenuItem value={1}>Semester 1</MenuItem>
-            <MenuItem value={2}>Semester 2</MenuItem>
-            <MenuItem value={3}>Semester 3</MenuItem>
-            <MenuItem value={3}>Semester 4</MenuItem>
-            <MenuItem value={3}>Semester 5</MenuItem>
-            <MenuItem value={3}>Semester 6</MenuItem>
-            <MenuItem value={3}>Semester 7</MenuItem>
-            <MenuItem value={3}>Semester 8</MenuItem>
 
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>A</MenuItem>
+            <MenuItem value={20}>B</MenuItem>
           </Select>
         </FormControl>
-        </form>
-        <div className={classes.intro}>
-        <Button variant="contained" color="secondary" className={classes.button}>Submit</Button>
-        <Button variant="contained" color="secondary" className={classes.button}>Proceed</Button>
-        </div>
-      
-       
-
-
-            </div>
+        </Grid>
+            <Grid item xs={7}></Grid>
+            <Grid item xs={6}>
+            <Button variant="contained" color="primary" style={{margin:'auto',display:'block'}}>
+        SUBMIT
+      </Button>
+            </Grid>
+    
+            </Grid>
+            </form>
+            </MuiThemeProvider>
+            </Paper>  
+            </Grid>
+            </Grid>
         );
     }
 }
 
-Student.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-  
-  export default withStyles(styles)(Student);
+export default Student;
