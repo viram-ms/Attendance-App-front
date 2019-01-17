@@ -4,7 +4,11 @@ import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 class Subject extends React.Component{
     render(){
         return(
-            <div><h1>Subject</h1></div>
+            <div>
+       <PersistentDrawerLeft />
+       <h1>Subject</h1>
+            
+            </div>
         );
     }
 }
