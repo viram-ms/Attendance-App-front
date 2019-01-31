@@ -11,6 +11,10 @@ import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Subject from './Subject';
 import Student from './Student';
 import Teacher from './Teacher';
+<<<<<<< HEAD
+import AttendForDate from './AttendForDate';
+=======
+>>>>>>> 5966a7f086939dade4d376f6e7497aec743a212e
 
 class App extends Component {
   render() {
@@ -23,7 +27,11 @@ class App extends Component {
         <Route exact path="/Student" component={Student} />
         <Route exact path="/Teacher" component={Teacher} />
         <Route exact path="/Subject" component={Subject} />
+<<<<<<< HEAD
+        <Route exact path="/AttendForDate" component={AttendForDate} />
+=======
 
+>>>>>>> 5966a7f086939dade4d376f6e7497aec743a212e
 
 
       </Switch>

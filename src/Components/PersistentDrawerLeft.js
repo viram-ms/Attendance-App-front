@@ -19,6 +19,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
+import Button from '@material-ui/core/Button';
+=======
+>>>>>>> 5966a7f086939dade4d376f6e7497aec743a212e
 
 const drawerWidth = 240;
 
@@ -136,9 +140,16 @@ class PersistentDrawerLeft extends React.Component {
           <Divider />
           <List>
               <ListItem style={{display:'block',width:'100',margin:'auto'}}>
+<<<<<<< HEAD
+                  <Button variant="contained" color="primary"><Link to="/Teacher" onClick={this.handleDrawerClose}><ListItemText >Teacher</ListItemText></Link></Button>
+                  <Link to="/Student" onClick={this.handleDrawerClose}><ListItemText >Student</ListItemText></Link>
+                  <Link to="/Subject" onClick={this.handleDrawerClose}><ListItemText >Subject</ListItemText></Link>
+                  <Link to="/AttendForDate" onClick={this.handleDrawerClose}><ListItemText >Datewise Attendance</ListItemText></Link>
+=======
                   <Link to="/Teacher"> <ListItemText >Teacher</ListItemText></Link>
                   <Link to="/Student"><ListItemText >Student</ListItemText></Link>
                   <Link to="/Subject"> <ListItemText >Subject</ListItemText></Link>
+>>>>>>> 5966a7f086939dade4d376f6e7497aec743a212e
 
                  
                   
