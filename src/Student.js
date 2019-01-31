@@ -72,6 +72,10 @@ class Student extends React.Component{
             variant="outlined"
             fullWidth />
             </Grid>
+<<<<<<< HEAD
+=======
+     
+>>>>>>> 5966a7f086939dade4d376f6e7497aec743a212e
             <Grid item xs={7}>
             <TextField
             id="outlined-name"
