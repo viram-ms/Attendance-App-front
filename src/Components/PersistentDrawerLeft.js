@@ -135,10 +135,11 @@ class PersistentDrawerLeft extends React.Component {
           </div>
           <Divider />
           <List>
-              <ListItem style={{display:'block',width:'100',margin:'auto'}}>
-                  <Link to="/Teacher"> <ListItemText >Teacher</ListItemText></Link>
-                  <Link to="/Student"><ListItemText >Student</ListItemText></Link>
-                  <Link to="/Subject"> <ListItemText >Subject</ListItemText></Link>
+              <ListItem style={{display:'block',margin:'auto',width:80,padding:0}} >
+                  <Link to="/Teacher" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Teacher</Typography></ListItemText></Link>
+                  <Link to="/Student" style={{textDecoration:'none'}}><ListItemText><Typography variant="h5">Student</Typography></ListItemText></Link>
+                  <Link to="/Subject" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Subject</Typography></ListItemText></Link>
+                  <Link to="/AttendanceTable" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">AttendanceTable</Typography></ListItemText></Link>
 
                  
                   
