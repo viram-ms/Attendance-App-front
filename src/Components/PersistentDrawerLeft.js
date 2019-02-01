@@ -24,6 +24,9 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
+
+    //display: 'flex',
+
     display: 'block',
   },
   appBar: {
@@ -135,11 +138,13 @@ class PersistentDrawerLeft extends React.Component {
           </div>
           <Divider />
           <List>
+
               <ListItem style={{display:'block',margin:'auto',width:80,padding:0}} >
                   <Link to="/Teacher" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Teacher</Typography></ListItemText></Link>
                   <Link to="/Student" style={{textDecoration:'none'}}><ListItemText><Typography variant="h5">Student</Typography></ListItemText></Link>
                   <Link to="/Subject" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Subject</Typography></ListItemText></Link>
                   <Link to="/AttendanceTable" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">AttendanceTable</Typography></ListItemText></Link>
+
 
                  
                   
@@ -153,8 +158,19 @@ class PersistentDrawerLeft extends React.Component {
               </ListItem>
             ))} */}
           </List>
+
+          <Divider />
+          <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
         
          
+
         </Drawer>
         <main
           className={classNames(classes.content, {
