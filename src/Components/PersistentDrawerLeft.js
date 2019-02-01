@@ -24,7 +24,10 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex',
+
+    //display: 'flex',
+
+    display: 'block',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -135,7 +138,9 @@ class PersistentDrawerLeft extends React.Component {
           </div>
           <Divider />
           <List>
-              <ListItem>
+
+              <ListItem style={{display:'block',width:'100',margin:'auto'}}>
+>>>>>>> bae50f098fe4ba5c3c1cd307a876db6a5f4a7bea
                   <Link to="/Teacher"> <ListItemText >Teacher</ListItemText></Link>
                   <Link to="/Student"><ListItemText >Student</ListItemText></Link>
                   <Link to="/Subject"> <ListItemText >Subject</ListItemText></Link>
@@ -152,6 +157,7 @@ class PersistentDrawerLeft extends React.Component {
               </ListItem>
             ))} */}
           </List>
+
           <Divider />
           <List>
             {['All mail', 'Trash', 'Spam'].map((text, index) => (
@@ -161,6 +167,9 @@ class PersistentDrawerLeft extends React.Component {
               </ListItem>
             ))}
           </List>
+        
+         
+
         </Drawer>
         <main
           className={classNames(classes.content, {
