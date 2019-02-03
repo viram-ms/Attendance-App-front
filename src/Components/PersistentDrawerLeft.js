@@ -14,10 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -80,6 +78,9 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  listStyle:{
+    display: 'block', margin: 'auto', width: 80, padding: 0
+  }
 });
 
 class PersistentDrawerLeft extends React.Component {
@@ -139,37 +140,52 @@ class PersistentDrawerLeft extends React.Component {
           <Divider />
           <List>
 
-              <ListItem style={{display:'block',margin:'auto',width:80,padding:0}} >
-                  <Link to="/Teacher" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Teacher</Typography></ListItemText></Link>
-                  <Link to="/Student" style={{textDecoration:'none'}}><ListItemText><Typography variant="h5">Student</Typography></ListItemText></Link>
-                  <Link to="/Subject" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">Subject</Typography></ListItemText></Link>
-                  <Link to="/AttendanceTable" style={{textDecoration:'none'}}> <ListItemText><Typography variant="h5">AttendanceTable</Typography></ListItemText></Link>
-
-
-                 
-                  
-                 
-
-              </ListItem>
-            {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))} */}
+            <ListItem className={classes.listStyle} >
+              <Link to="/" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Login</Typography></ListItemText></Link>              
+            </ListItem>           
           </List>
-
           <Divider />
           <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+
+            <ListItem className={classes.listStyle} >
+              <Link to="/Teacher" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Teacher</Typography></ListItemText></Link>              
+            </ListItem>           
           </List>
-        
+          <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/Student" style={{ textDecoration: 'none' }}><ListItemText><Typography variant="subtitle1">Student</Typography></ListItemText></Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/Subject" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Subject</Typography></ListItemText></Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/AttendanceTable" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">AttendanceTable</Typography></ListItemText></Link> 
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/teachermain" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Teacher Tabs</Typography></ListItemText></Link> 
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/attendfordate" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">attend For Date</Typography></ListItemText></Link> 
+            </ListItem>
+          </List>
+          <Divider />
+
          
+
+
 
         </Drawer>
         <main
@@ -178,8 +194,8 @@ class PersistentDrawerLeft extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
-      
-         
+
+
         </main>
       </div>
     );

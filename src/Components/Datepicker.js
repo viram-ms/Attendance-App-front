@@ -1,6 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import PropTypes, { nominalTypeHack } from 'prop-types';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
@@ -45,10 +45,19 @@ class Datepicker extends React.Component {
     this.setState({
       startDate: date
     });
+
   }
   
   updateChange = () => {
+    var completeDate=this.state.startDate;
     console.log(this.state.startDate);
+    var date=completeDate.getDate();
+    var month =completeDate.getMonth()+1;
+    var year = completeDate.getFullYear();
+    
+        console.log(date +"/"+month+"/"+year);
+    
+
   }
  
   render() {
@@ -61,8 +70,9 @@ class Datepicker extends React.Component {
         className={classes.date}
       />
      
-      <Button variant="contained" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
-      {/* <div>{this.state.startDate}</div> */}
+      <Button variant="contained" color="secondary" onClick={this.updateChange} className={classes.button}> Submit</Button>
+      <br />
+      {`${this.state.startDate}`}
       </div>
       
     );

@@ -1,47 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Link
+
 } from 'react-router-dom';
-import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Subject from './Subject';
 import Student from './Student';
 import Teacher from './Teacher';
 import AttendanceTable from './AttendanceTable';
-import Datepicker from './Components/Datepicker';
 import AttendanceStudent from './AttendaceStudent';
+import Teachermain from './Teachermain';
+import login from './login';
+import AttendForDate from './AttendForDate';
 
 class App extends Component {
   render() {
     return (
       <Router>
          <div>
-
-
-       <PersistentDrawerLeft />
-
-
-           {/* <PersistentDrawerLeft /> */}
-           {/* <Datepicker /> */}
-
-     
+       {/* <PersistentDrawerLeft /> */}
+        
       <Switch>
-        <Route exact path="/Student" component={Student} />
-        <Route exact path="/Teacher" component={Teacher} />
-        <Route exact path="/Subject" component={Subject} />
-        <Route exact path="/AttendanceTable" component={AttendanceTable} />
-        <Route exact path="/:id" component={AttendanceStudent} />
+        <Route exact path="/" component={login} />
 
-
-
+        <Route exact path="/student" component={Student} />
+        <Route exact path="/teacher" component={Teacher} />
+        <Route exact path="/subject" component={Subject} />
+        <Route exact path="/attendanceTable" component={AttendanceTable} />
+        <Route exact path="/student/:id" component={AttendanceStudent} />
+        <Route exact path="/teachermain" component={Teachermain} />
+        <Route exact path="/attendfordate" component={AttendForDate} />
       </Switch>
       </div>
-      </Router>
-     
+      </Router>     
     );
   }
 }

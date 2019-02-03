@@ -39,6 +39,12 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
     },
   },
+  red:{
+    backgroundColor:'red'
+  },
+  green:{
+    backgroundColor:'green'
+  }
   
   
 });
@@ -50,11 +56,11 @@ function createData(name, sap, percent) {
 }
 
 const rows = [
-  createData('Viram shah', 60004170122, 80),
+  createData('Viram shah', 60004170122, 60),
   createData('vishal shah', 60004170123, 80),
-  createData('Viraj shah', 60004170123, 80),
-  createData('yash shah', 60004170124, 80),
-  createData('vasu shah', 60004170125, 80)
+  createData('Viraj shah', 60004170123, 74),
+  createData('yash shah', 60004170124, 85),
+  createData('vasu shah', 60004170125, 40)
 
 ];
 
@@ -73,17 +79,20 @@ class CustomizedTable extends React.Component {
                   
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody >
                   {rows.map(row => (
 
                     <TableRow className={classes.row} key={row.id}>
                       <CustomTableCell component="th" scope="row">
-                    <Link to={`${row.sap}`} style={{textDecoration:'none',color:'black'}}>
+                    <Link to={`student/${row.sap}`} style={{textDecoration:'none',color:'black'}}>
                         {row.name}
                       </Link>
                       </CustomTableCell>
                       <CustomTableCell >{row.sap}</CustomTableCell>
-                      <CustomTableCell >{row.percent}</CustomTableCell>
+                      {
+                        row.percent > 75 ?  <CustomTableCell className={classes.green} >{row.percent}</CustomTableCell> :  <CustomTableCell className={classes.red}   >{row.percent}</CustomTableCell>
+                      }
+                     
                   
                     </TableRow>
                   ))}
