@@ -14,6 +14,7 @@ import AttendanceStudent from './AttendaceStudent';
 import Teachermain from './Teachermain';
 import login from './login';
 import AttendForDate from './AttendForDate';
+import StudentAttend from './StudentAttend';
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
         <Route exact path="/student/:id" component={AttendanceStudent} />
         <Route exact path="/teachermain" component={Teachermain} />
         <Route exact path="/attendfordate" component={AttendForDate} />
+        <Route exact path="/StudentAttend" component={StudentAttend} />
       </Switch>
       </div>
       </Router>     
