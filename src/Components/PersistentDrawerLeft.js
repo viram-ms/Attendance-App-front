@@ -182,6 +182,12 @@ class PersistentDrawerLeft extends React.Component {
             </ListItem>
           </List>
           <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/StudentAttend" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Student Attendance</Typography></ListItemText></Link> 
+            </ListItem>
+          </List>
+          <Divider />
 
          
 
