@@ -6,7 +6,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes  from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
@@ -26,11 +26,14 @@ const styles = theme => ({
   },
   
   button: {
-    padding: 20,
+    color:'white',
+    padding: 15,
     margin: 20,
     width: 300,
+    fontSize:18,
     '&:hover': {
-      backgroundColor: 'black',
+      backgroundColor: '#0288d1',
+      color:'white'
     }
   },
   paper: {
@@ -110,8 +113,8 @@ class Subject extends React.Component {
         />
            
         <div className={classes.intro}>
-          <Button variant="contained" color="primary" className={classes.button}>Submit</Button>
-          <Button variant="contained" color="primary" className={classes.button}>Proceed</Button>
+          <Button variant="contained" color="secondary" className={classes.button}>Submit</Button>
+          <Button variant="contained" color="secondary" className={classes.button}>Proceed</Button>
         </div>
         </form>
         </Paper>

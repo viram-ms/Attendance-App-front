@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 
 import CardActions from '@material-ui/core/CardActions';
@@ -7,9 +8,35 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { Grid, Button, CardContent } from '@material-ui/core';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import CreateIcon from '@material-ui/icons/Create';
+import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 
-import { Grid, Button } from '@material-ui/core';
 //import './style.css'
+
+const styles = theme => ({
+
+  card: {
+    height: 225,
+
+  },
+  content: {
+    padding: 2
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+
+
+});
 
 class Mysubjectcard extends React.Component {
   state = { expanded: false };
@@ -23,55 +50,90 @@ class Mysubjectcard extends React.Component {
     return (
 
       // <div>
-      <Grid container
-      
-      style={{ marginTop: '100px', width: "100%" }}
-      direction='row'
-      justify='center'
-      spacing={16}
-      > <Grid item md={4}  >
-      <Card style={{ height: 250, display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" gutterBottom style={{ alignSelf: "flex-start" }}>OPEN SOURCE LAB-PYTHON</Typography>
-        <CardActions disableActionSpacing style={{ alignSelf: "flex-end" }}>
-          <IconButton style={{padding:30, color:'black'}}>
-            <VerticalAlignBottomIcon />
-          </IconButton>
-          <Button variant="contained" color="primary">
-            VIEW
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
+      <Grid container spacing={16}>
+        <Grid item md={6}  >
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
+              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
+              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
 
-    <Grid item md={4}  >
-      <Card style={{ height: 250, display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" gutterBottom style={{ alignSelf: "flex-start" }}>ANALYSIS OF ALGORITHM</Typography>
-        <CardActions disableActionSpacing style={{ alignSelf: "flex-end" }}>
-          <IconButton style={{padding:30 , color:'black'}}>
-            <VerticalAlignBottomIcon />
-          </IconButton>
-          <Button variant="contained" color="primary">
-            VIEW
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-    <Grid item md={4}  >
-      <Card style={{ height: 250, display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" gutterBottom style={{ alignSelf: "flex-start" }}>OBJECT ORIENTED PROGRAMMING-JAVA</Typography>
-        <CardActions disableActionSpacing style={{ alignSelf: "flex-end" }}>
-          <IconButton style={{padding:30,color:'black'}}>
-            <VerticalAlignBottomIcon />
-          </IconButton>
-          <Button variant="contained" color="primary">
-            VIEW
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-    
-   </Grid>
-   );
+            </CardContent>
+
+            <CardActions disableActionSpacing style={{}}>
+              <Button variant="contained" color="default" className={classes.button}>
+                Download
+        <CloudDownloadIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                View
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                Edit
+        <CreateIcon className={classes.rightIcon} />
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+
+        <Grid item md={6}  >
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
+              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
+              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
+
+            </CardContent>
+
+            <CardActions disableActionSpacing style={{}}>
+              <Button variant="contained" color="default" className={classes.button}>
+                Download
+        <CloudDownloadIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                View
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                Edit
+        <CreateIcon className={classes.rightIcon} />
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item md={6}  >
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
+              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
+              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
+
+            </CardContent>
+
+            <CardActions disableActionSpacing style={{}}>
+              <Button variant="contained" color="default" className={classes.button}>
+                Download
+        <CloudDownloadIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                View
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                Edit
+        <CreateIcon className={classes.rightIcon} />
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+
+      </Grid>
+    );
+  }
 }
-}
-export default Mysubjectcard;
+Mysubjectcard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Mysubjectcard);

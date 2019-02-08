@@ -11,19 +11,25 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({ 
     root:{
       margin:'auto',
-      textAlign:'center'
+      textAlign:'center',
+      display:'flex'
     },
 
     date:{
-      padding:15,
+      padding:'10px 5px',
       fontSize:20,
       textAlign:'center',
-      marginLeft:20,
+      width:175,
       borderRadius:5
     },
     button:{
-      marginLeft:20,
-      padding:12
+      margin:'0px 10px',
+      padding:6,
+      '&:hover': {
+        backgroundColor: 'black',
+        color:'white'
+      }
+     
     }
 
 })
@@ -69,10 +75,10 @@ class Datepicker extends React.Component {
         onChange={this.handleChange}
         className={classes.date}
       />
-     
-      <Button variant="contained" color="secondary" onClick={this.updateChange} className={classes.button}> Submit</Button>
-      <br />
-      {`${this.state.startDate}`}
+     <br />
+      <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
+      
+      {/* {`${this.state.startDate}`} */}
       </div>
       
     );

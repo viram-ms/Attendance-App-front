@@ -25,7 +25,9 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: "100%",
+    minWidth: 400,
+    maxWidth:1100,
+    margin:'auto'
   },
 });
 
@@ -66,8 +68,9 @@ class Ttab extends React.Component {
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          
         >
-          <TabContainer  dir={theme.direction}>
+          <TabContainer dir={theme.direction}>
             <Mysubjectcard />
           </TabContainer>
           <TabContainer  dir={theme.direction}><Myclasscard /></TabContainer>
