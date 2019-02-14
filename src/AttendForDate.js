@@ -28,12 +28,18 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 400,
   },
   row: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
     },
+  },
+  red: {
+    color:  'red',
+  },
+  green: {
+    color: 'green',
   },
 });
 
@@ -57,16 +63,16 @@ class AttendForDate extends React.Component {
 
     return (
       <div>
-          <PersistentDrawerLeft />
-        <Grid container>
+        <PersistentDrawerLeft />
+        <Grid container className={classes.table}>
           <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid>
         </Grid>
-        <Grid container>
-          <Grid item xs={1}>
+        <Grid container className={classes.table}>
+          <Grid item xs={2}>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={8}>
             <Paper>
-              <Table className={classes.table}>
+              <Table>
                 <TableHead>
                   <TableRow>
                     <CustomTableCell>SAP ID</CustomTableCell>
@@ -81,14 +87,16 @@ class AttendForDate extends React.Component {
                         {row.Sap_id}
                       </CustomTableCell>
                       <CustomTableCell>{row.Name}</CustomTableCell>
-                      <CustomTableCell>{row.p_a}</CustomTableCell>
+                      {
+                        row.p_a.toLowerCase() == "present" ? <CustomTableCell className={classes.green}>{row.p_a}</CustomTableCell> : <CustomTableCell className={classes.red}>{row.p_a}</CustomTableCell>
+                      }
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </Paper>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
           </Grid>
         </Grid>
       </div>
