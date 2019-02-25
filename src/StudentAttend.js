@@ -26,14 +26,23 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    ['@media (max-width:780px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%!important'
+    }
   },
   table: {
-    minWidth: 700,
+    minWidth: 400,
   },
   row: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
     },
+  },
+  red: {
+    color:  'red',
+  },
+  green: {
+    color: 'green',
   },
 });
 
@@ -57,38 +66,43 @@ class StudentAttend extends React.Component {
 
     return (
       <div>
-          <PersistentDrawerLeft />
+        <PersistentDrawerLeft />
         <Grid container>
-          <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Shail Shah</Typography></Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
           </Grid>
-          <Grid item xs={10}>
-            <Paper>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <CustomTableCell>Date</CustomTableCell>
-                    <CustomTableCell>Present/Absent</CustomTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow className={classes.row} key={row.id}>
-                      <CustomTableCell component="th" scope="row">
-                        {row.date}
-                      </CustomTableCell>
-                      <CustomTableCell>{row.p_a}</CustomTableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Paper>
+          <Grid item xs={8}>
+            <Grid container className={classes.table}>
+              <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Shail Shah</Typography></Grid>
+            </Grid>
+              <Grid item xs={12} sm={12}>
+                <Paper>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <CustomTableCell style={{fontSize:'1rem'}}>Date</CustomTableCell>
+                        <CustomTableCell style={{fontSize:'1rem'}}>Present/Absent</CustomTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map(row => (
+                        <TableRow className={classes.row} key={row.id}>
+                          <CustomTableCell component="th" scope="row">
+                            {row.date}
+                          </CustomTableCell>
+                          {
+                            row.p_a.toLowerCase() == "present" ? <CustomTableCell className={classes.green}>{row.p_a}</CustomTableCell> : <CustomTableCell className={classes.red}>{row.p_a}</CustomTableCell>
+                          }
+                          
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Paper>
+              </Grid>
+            </Grid>
+            <Grid item xs={2}>
+            </Grid>
           </Grid>
-          <Grid item xs={1}>
-          </Grid>
-        </Grid>
       </div>
     );
   }

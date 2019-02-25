@@ -188,6 +188,12 @@ class PersistentDrawerLeft extends React.Component {
             </ListItem>
           </List>
           <Divider />
+          <List>
+            <ListItem className={classes.listStyle}>
+            <Link to="/EditPage" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Edit Details</Typography></ListItemText></Link> 
+            </ListItem>
+          </List>
+          <Divider />
 
          
 

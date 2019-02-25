@@ -18,6 +18,7 @@ import StudentAttend from './StudentAttend';
 import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
+import EditPage from './EditPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -47,6 +48,7 @@ class App extends Component {
         <Route exact path="/teachermain" component={Teachermain} />
         <Route exact path="/attendfordate" component={AttendForDate} />
         <Route exact path="/StudentAttend" component={StudentAttend} />
+        <Route exact path="/EditPage" component={EditPage} />
       </Switch>
       </div>
       </Router>     
