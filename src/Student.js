@@ -13,14 +13,7 @@ const theme=createMuiTheme({
     typography: {
         useNextVariants: true,
       },
-    palette:{
-        primary:{
-            main:"#445DFF"
-        },
-        secondary:{
-            main:"#C1D37F"
-        }
-    }
+   
 }
 
 );
@@ -35,9 +28,14 @@ const styles = theme => ({
     //   width:'100%'
     // }
   },
-    button: {
-      margin: theme.spacing.unit,
-    },
+  button: {
+    padding: 20,
+    margin: 20,
+    width: 200,
+    '&:hover': {
+      backgroundColor: 'black',
+    }
+  },
     input: {
       display: 'none',
     },
@@ -74,7 +72,6 @@ class Student extends React.Component{
               <Typography component="h2" variant="h3" align="center"  gutterBottom className={classes.text}>STUDENT </Typography>
             </div>
 
-                <MuiThemeProvider theme={theme}>
             <form>
             <Grid container justify="center" spacing={24}>
             <Grid item xs={7}>
@@ -130,14 +127,11 @@ class Student extends React.Component{
         </Grid>
             <Grid item xs={7}></Grid>
             <Grid item xs={6}>
-            <Button variant="contained" color="primary" style={{margin:'auto',display:'block'}}>
-        SUBMIT
-      </Button>
+          <Button variant="contained" color="primary" className={classes.button}>Submit</Button>
             </Grid>
     
             </Grid>
             </form>
-            </MuiThemeProvider>
             </Paper>  
             </Grid>
             </Grid>
