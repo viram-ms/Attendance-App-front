@@ -46,11 +46,57 @@ class login extends React.Component {
 
   state = {
     age: '',
+    logged_in: localStorage.getItem('token') ? true : false,
+    username: '',
+    password:'',
+    teacherId:''
 
+  };
+
+
+  componentDidMount() {
+    if (this.state.logged_in) {
+      fetch('http://localhost:8000/login', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ teacherId: json.teacherId });
+        });
+    }
+  }
+
+   handle_login = (e, data) => {
+    console.log('hey');
+    e.preventDefault();
+    fetch('http://localhost:8000/token-auth/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        localStorage.setItem('token', json.token);
+        this.setState({
+          logged_in: true,
+          displayed_form: '',
+          teacherId: json.user.teacherId
+        });
+      });
+  };
+
+  handle_logout = () => {
+    localStorage.removeItem('token');
+    this.setState({ logged_in: false, teacherId: '' });
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(this.state)
   };
   render() {
     const { classes } = this.props;
@@ -62,22 +108,24 @@ class login extends React.Component {
         <h1>LOGIN</h1>      
         <TextField style={{ width: 500 }}
           id="name"
+          onChange={this.handleChange}
           label="Name"
           type="text"
-          name="Name"
+          name="teacherId"
           margin="normal"
           variant="outlined"
         /> 
         <TextField style={{ width: 500 }}
           id="password"
           label="Password"
+          onChange={this.handleChange}
           type="password"
           name="password"
           margin="normal"
           variant="outlined"
         />    
         <div className={classes.intro}>
-          <Button variant="contained" color="primary" className={classes.button}>Submit</Button>
+          <Button variant="contained" color="primary" className={classes.button} onClick={this.handle_login}>Submit</Button>
         </div>
         </form>
         </Paper>         
