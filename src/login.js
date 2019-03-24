@@ -16,7 +16,7 @@ const styles = theme => ({
   formControl: {
     width:300,
     fontSize:16
-    
+
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   title:{
     maxWidth:500,
-    margin:'auto', 
+    margin:'auto',
   }
 });
 
@@ -71,12 +71,16 @@ class login extends React.Component {
    handle_login = (e, data) => {
     console.log('hey');
     e.preventDefault();
-    fetch('http://localhost:8000/token-auth/', {
+    fetch('http://localhost:8000/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      mode: 'no-cors',
+      body: JSON.stringify({
+        teacherId: this.state.teacherId,
+        password: this.state.password,
+      })
     })
       .then(res => res.json())
       .then(json => {
@@ -105,7 +109,7 @@ class login extends React.Component {
         <PersistentDrawerLeft />
         <Paper className={classes.paper}>
         <form  autoComplete="off">
-        <h1>LOGIN</h1>      
+        <h1>LOGIN</h1>
         <TextField style={{ width: 500 }}
           id="name"
           onChange={this.handleChange}
@@ -114,7 +118,7 @@ class login extends React.Component {
           name="teacherId"
           margin="normal"
           variant="outlined"
-        /> 
+        />
         <TextField style={{ width: 500 }}
           id="password"
           label="Password"
@@ -123,12 +127,12 @@ class login extends React.Component {
           name="password"
           margin="normal"
           variant="outlined"
-        />    
+        />
         <div className={classes.intro}>
           <Button variant="contained" color="primary" className={classes.button} onClick={this.handle_login}>Submit</Button>
         </div>
         </form>
-        </Paper>         
+        </Paper>
       </div>
     );
   }
