@@ -41,6 +41,10 @@ const styles = theme => ({
 
 class Myclasscard extends React.Component {
   state = { expanded: false };
+
+  componentDidMount(){
+    console.log(this.props.class_subjects);
+  }
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
@@ -51,10 +55,64 @@ class Myclasscard extends React.Component {
     return (
 
       // <div>
-      <Grid container
 
-        spacing={16}
-      >
+      <Grid container spacing={16}>
+          {this.props.class_subjects.map((subject) =>  {
+            return(
+            <Grid item md={6}>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom className={classes.content}><b>{subject.name}</b></Typography>
+                <Typography variant="h6" gutterBottom className={classes.content}>{subject.semester}</Typography>
+                <Typography variant="title" gutterBottom className={classes.content}>{subject.subjectCode}</Typography>
+
+              </CardContent>
+
+              <CardActions disableActionSpacing style={{}}>
+                <Button variant="contained" color="default" className={classes.button}>
+                  Download
+          <CloudDownloadIcon className={classes.rightIcon} />
+                </Button>
+                <Button variant="contained" color="default" className={classes.button}>
+                  View
+          <RemoveRedEyeIcon className={classes.rightIcon} />
+                </Button>
+                <Button variant="contained" color="default" className={classes.button}>
+                  Edit
+          <CreateIcon className={classes.rightIcon} />
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+            )
+
+          })}
+
+        {/* <Grid item md={6}  >
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
+              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
+              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
+
+            </CardContent>
+
+            <CardActions disableActionSpacing style={{}}>
+              <Button variant="contained" color="default" className={classes.button}>
+                Download
+        <CloudDownloadIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                View
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button>
+              <Button variant="contained" color="default" className={classes.button}>
+                Edit
+        <CreateIcon className={classes.rightIcon} />
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
 
         <Grid item md={6}  >
           <Card className={classes.card}>
@@ -106,7 +164,6 @@ class Myclasscard extends React.Component {
             </CardActions>
           </Card>
         </Grid>
-
         <Grid item md={6}  >
           <Card className={classes.card}>
             <CardContent>
@@ -156,57 +213,7 @@ class Myclasscard extends React.Component {
               </Button>
             </CardActions>
           </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
+        </Grid> */}
 
 
       </Grid>

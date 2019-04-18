@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import {Redirect} from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -49,48 +50,76 @@ class login extends React.Component {
     logged_in: localStorage.getItem('token') ? true : false,
     username: '',
     password:'',
-    teacherId:''
+    teacherId:'',
+    class_subjects:[],
+    division_they_are_class_teacher_of:'',
+    taught_subjects:[]
 
   };
 
 
   componentDidMount() {
-    if (this.state.logged_in) {
-      fetch('http://localhost:8000/login', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(json => {
-          this.setState({ teacherId: json.teacherId });
-        });
-    }
+    // if (this.state.logged_in) {
+    //   fetch('http://localhost:8000/login', {
+    //     headers: {
+    //       Authorization: `JWT ${localStorage.getItem('token')}`
+    //     }
+    //   })
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       this.setState({ teacherId: json.teacherId });
+    //     });
+    // }
   }
 
-   handle_login = (e, data) => {
+   handle_login = async () => {
     console.log('hey');
-    e.preventDefault();
-    fetch('http://localhost:8000/Attendance/login-teacher/', {
+
+   const res=await fetch('http://localhost:8000/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
       },
-      mode: 'no-cors',
+      // mode: 'no-cors',
       body: JSON.stringify({
         teacherId: this.state.teacherId,
         password: this.state.password,
       })
     })
-      .then(res => res.json())
-      .then(json => {
-        localStorage.setItem('token', json.token);
-        this.setState({
-          logged_in: true,
-          displayed_form: '',
-          teacherId: json.user.teacherId
-        });
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
+
+    if(res.status === 200){
+      localStorage.setItem('token',data.token);
+      const class_subjects = data.class_subjects;
+      const taught_subjects = data.taught_subjects;
+      const division_they_are_class_teacher_of = data.division_they_are_class_teacher_of;
+      this.setState({
+        logged_in:true,
+        class_subjects,
+        taught_subjects,
+        division_they_are_class_teacher_of
+
       });
+      console.log(this.state);
+
+    }
+      // .then(res => console.log(res.json())  )
+
+    //   .catch(error => {
+    //     console.log(error, "catch the hoop");
+    // });
+
+      // .then(json => {
+      //   localStorage.setItem('token', json.token);
+      //   this.setState({
+      //     logged_in: true,
+      //     displayed_form: '',
+      //     teacherId: json.user.teacherId
+      //   });
+      // });
   };
 
   handle_logout = () => {
@@ -133,6 +162,7 @@ class login extends React.Component {
         </div>
         </form>
         </Paper>
+        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state}} />}
       </div>
     );
   }
