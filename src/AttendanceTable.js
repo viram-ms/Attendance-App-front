@@ -14,6 +14,93 @@ const styles = theme => ({
 })
  
 class AttendanceTable extends React.Component {
+
+  state={
+    startDate: new Date(),
+    formattedDate:''
+  }
+  handleChange = (date) => {
+    this.setState({
+      startDate: date,
+     
+    });
+
+  }
+
+  updateChange = async (event) => {
+    event.preventDefault();
+    var completeDate=this.state.startDate;
+    console.log(this.state.startDate);
+    var date=completeDate.getDate();
+    var month =completeDate.getMonth()+1;
+    var year = completeDate.getFullYear();
+    
+        console.log(date +"/"+month+"/"+year);
+        const formattedDate = date + "-" + month + "-" + year;
+        await this.setState({
+          formattedDate
+        });
+
+        const res=await fetch(`http://10.120.105.66:8000/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': `Token ${localStorage.getItem('token')}`,
+          },
+          // mode: 'no-cors',
+        })
+        console.log(res);
+        const data = await res.json();
+        console.log(data);
+    
+        if(res.status === 200){
+         
+          
+          console.log('fuck off');
+    
+      }
+    
+
+  }
+
+  async componentDidMount(){
+    console.log('hi');
+    console.log(this.props);
+    var completeDate=this.state.startDate;
+    console.log(this.state.startDate);
+    var date=completeDate.getDate();
+    var month =completeDate.getMonth()+1;
+    var year = completeDate.getFullYear();
+    
+        console.log(date +"/"+month+"/"+year);
+        const formatdDate = date + "-" + month + "-" + year;
+        console.log(formatdDate);
+        await this.setState({
+          formattedDate:formatdDate
+        })
+        console.log(this.state.formattedDate);
+    
+    const res=await fetch(`http://10.120.105.66:8000/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': `Token ${localStorage.getItem('token')}`,
+      },
+      // mode: 'no-cors',
+    })
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
+
+    if(res.status === 200){
+     
+      
+      console.log('fuck off');
+
+  }
+}
     
   render() {
     const { classes } = this.props;
@@ -29,7 +116,7 @@ class AttendanceTable extends React.Component {
             <CustomizedTable />
             </Grid>
             <Grid item md={12} lg={4} style={{padding:'25px 50px'}}>
-            <Datepicker />
+            <Datepicker startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
             </Grid>
           </Grid>
           

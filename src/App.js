@@ -43,7 +43,7 @@ class App extends Component {
         <Route exact path="/student" component={Student} />
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/subject" component={Subject} />
-        <Route exact path="/attendanceTable" component={AttendanceTable} />
+        <Route exact path="/attendanceTable/:div" component={AttendanceTable} />
         <Route exact path="/student/:id" component={AttendanceStudent} />
         <Route exact path="/teachermain" component={Teachermain} />
         <Route exact path="/attendfordate" component={AttendForDate} />

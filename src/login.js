@@ -51,9 +51,7 @@ class login extends React.Component {
     username: '',
     password:'',
     teacherId:'',
-    class_subjects:[],
-    division_they_are_class_teacher_of:'',
-    taught_subjects:[]
+   
 
   };
 
@@ -74,8 +72,7 @@ class login extends React.Component {
 
    handle_login = async () => {
     console.log('hey');
-
-   const res=await fetch('http://localhost:8000/Attendance/login-teacher/', {
+   const res=await fetch('http://10.120.105.66:8000/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,14 +90,10 @@ class login extends React.Component {
 
     if(res.status === 200){
       localStorage.setItem('token',data.token);
-      const class_subjects = data.class_subjects;
-      const taught_subjects = data.taught_subjects;
-      const division_they_are_class_teacher_of = data.division_they_are_class_teacher_of;
+      
       this.setState({
         logged_in:true,
-        class_subjects,
-        taught_subjects,
-        division_they_are_class_teacher_of
+      
 
       });
       console.log(this.state);
@@ -162,7 +155,7 @@ class login extends React.Component {
         </div>
         </form>
         </Paper>
-        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state}} />}
+        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId}} />}
       </div>
     );
   }

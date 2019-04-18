@@ -43,40 +43,22 @@ class Datepicker extends React.Component {
   //   this.handleChange = this.handleChange.bind(this);
   // }
 
-  state={
-    startDate: new Date()
-  }
- 
-  handleChange = (date) => {
-    this.setState({
-      startDate: date
-    });
-
-  }
   
-  updateChange = () => {
-    var completeDate=this.state.startDate;
-    console.log(this.state.startDate);
-    var date=completeDate.getDate();
-    var month =completeDate.getMonth()+1;
-    var year = completeDate.getFullYear();
-    
-        console.log(date +"/"+month+"/"+year);
-    
-
-  }
+ 
+  
+  
  
   render() {
-    const{ classes }= this.props
+    const{ classes,handleChange,updateChange,startDate }= this.props
     return (
       <div className={classes.root} >
         <DatePicker
-        selected={this.state.startDate}
-        onChange={this.handleChange}
+        selected={startDate}
+        onChange={handleChange}
         className={classes.date}
       />
      <br />
-      <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
+      <Button variant="outlined" color="primary" onClick={updateChange} className={classes.button}> Submit</Button>
       
       {/* {`${this.state.startDate}`} */}
       </div>

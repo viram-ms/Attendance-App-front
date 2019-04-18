@@ -11,6 +11,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+import {Link,Redirect} from 'react-router-dom';
 
 
 
@@ -63,7 +64,7 @@ class Myclasscard extends React.Component {
             <Card className={classes.card}>
               <CardContent>
                 <Typography variant="h5" gutterBottom className={classes.content}><b>{subject.name}</b></Typography>
-                <Typography variant="h6" gutterBottom className={classes.content}>{subject.semester}</Typography>
+                <Typography variant="h6" gutterBottom className={classes.content}>Semester{subject.semester}</Typography>
                 <Typography variant="title" gutterBottom className={classes.content}>{subject.subjectCode}</Typography>
 
               </CardContent>
@@ -71,15 +72,16 @@ class Myclasscard extends React.Component {
               <CardActions disableActionSpacing style={{}}>
                 <Button variant="contained" color="default" className={classes.button}>
                   Download
-          <CloudDownloadIcon className={classes.rightIcon} />
+                <CloudDownloadIcon className={classes.rightIcon} />
                 </Button>
-                <Button variant="contained" color="default" className={classes.button}>
+                <Link to={{
+                pathname:`/attendanceTable/${subject.div}`, state:subject}}><Button variant="contained" color="default" className={classes.button}>
                   View
-          <RemoveRedEyeIcon className={classes.rightIcon} />
-                </Button>
+                <RemoveRedEyeIcon className={classes.rightIcon} />
+                </Button></Link>
                 <Button variant="contained" color="default" className={classes.button}>
                   Edit
-          <CreateIcon className={classes.rightIcon} />
+                <CreateIcon className={classes.rightIcon} />
                 </Button>
               </CardActions>
             </Card>

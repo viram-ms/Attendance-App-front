@@ -49,11 +49,30 @@ class Subject extends React.Component {
 
   state = {
     age: '',
+    semester:'',
+    subject:'',
+    subjectCode:''
 
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log("hi");
+    this.setState({
+      semester:'',
+      subject:'',
+      subjectCode:''
+    })
+  };
+
+  handleProceed = event => {
+    event.preventDefault();
+    console.log('hey');
+  }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(this.state);
   };
   render() {
     const { classes } = this.props;
@@ -70,9 +89,9 @@ class Subject extends React.Component {
 
         <FormControl className={classes.formControl}>
           <Select
-            value={this.state.age}
+            value={this.state.semester}
             onChange={this.handleChange}
-            name="age"
+            name="semester"
             displayEmpty
             className={classes.selectEmpty}
           >
@@ -99,6 +118,8 @@ class Subject extends React.Component {
           name="subject"
           margin="normal"
           variant="outlined"
+          value={this.state.subject}
+          onChange={this.handleChange}
         />
 
 
@@ -107,14 +128,16 @@ class Subject extends React.Component {
           id="subject-code"
           label="Subject-code"
           type="text"
-          name="subject-code"
+          name="subjectCode"
           margin="normal"
           variant="outlined"
+          value={this.state.subjectCode}
+          onChange={this.handleChange}
         />
            
         <div className={classes.intro}>
-          <Button variant="contained" color="secondary" className={classes.button}>Submit</Button>
-          <Button variant="contained" color="secondary" className={classes.button}>Proceed</Button>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleSubmit}>Submit</Button>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleProceed}>Proceed</Button>
         </div>
         </form>
         </Paper>

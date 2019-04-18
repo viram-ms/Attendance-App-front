@@ -13,6 +13,8 @@ import { Grid, Button, CardContent } from '@material-ui/core';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+import {Link,Redirect} from 'react-router-dom';
+
 
 //import './style.css'
 
@@ -51,12 +53,14 @@ class Mysubjectcard extends React.Component {
 
       // <div>
       <Grid container spacing={16}>
-        <Grid item md={6}  >
+      {this.props.taught_subjects.map((subject) => {
+        return(
+        <Grid item md={6}>
           <Card className={classes.card}>
             <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
+              <Typography variant="h5" gutterBottom className={classes.content}><b>{subject.name}</b></Typography>
+              <Typography variant="h6" gutterBottom className={classes.content}>Semester{subject.semester}</Typography>
+              <Typography variant="title" gutterBottom className={classes.content}>{subject.subjectCode}</Typography>
 
             </CardContent>
 
@@ -65,10 +69,11 @@ class Mysubjectcard extends React.Component {
                 Download
         <CloudDownloadIcon className={classes.rightIcon} />
               </Button>
-              <Button variant="contained" color="default" className={classes.button}>
+              <Link to={{
+                pathname:`/attendanceTable/${subject.div}`, state:subject}}><Button variant="contained" color="default" className={classes.button}>
                 View
         <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
+              </Button></Link>
               <Button variant="contained" color="default" className={classes.button}>
                 Edit
         <CreateIcon className={classes.rightIcon} />
@@ -76,57 +81,8 @@ class Mysubjectcard extends React.Component {
             </CardActions>
           </Card>
         </Grid>
-
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
+)})}
+        
 
       </Grid>
     );

@@ -3,7 +3,10 @@ import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import {Grid , Paper , Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import {Redirect} from 'react-router-dom';
 const styles = theme => ({
   root: {
     margin:'auto',
@@ -37,13 +40,54 @@ const styles = theme => ({
 });
 
 
-
-
 class Teacher extends React.Component{
-  state={age: ''}
+  state={
+    age: '',
+    fname:'',
+    lname:'',
+    password:'',
+    spec:'',
+    teacherId:'',
+    signup:false
+  }
+
+
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('hi');
+    const res=await fetch('http://10.120.105.66:8000/Attendance/signup-teacher/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      // mode: 'no-cors',
+      body: JSON.stringify({
+        fname: this.state.fname,
+        lname:this.state.lname,
+        spec:this.state.spec,
+        teacherId:this.state.teacherId,
+        password: this.state.password,
+      })
+    })
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
+
+    if(res.status === 200){
+     
+      this.setState({
+        signup:true
+      });
+
+    }
+  
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(this.state);
   };
   
   render(){
@@ -65,73 +109,67 @@ class Teacher extends React.Component{
                 <Grid container spacing={24}>
                   <Grid item xs={6}>
                     <TextField
+                    name="fname"
                     id="outlined-name"
                     label="First Name"
-                    value={this.state.name}
+                    value={this.state.fname}
+                    onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
                     fullWidth />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
+                    name="lname"
                     id="outlined-name"
-                    label="Surname"
-                    value={this.state.name}
+                    label="Last Name"
+                    value={this.state.lname}
+                    onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
                     fullWidth />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      name="password"
                       id="outlined-name"
-                      label="User"
-                      value={this.state.name}
+                      label="Password"
+                      type="password"
+                      value={this.state.password}
+                      onChange={this.handleChange}
                       margin="normal"
                       variant="outlined"
                       fullWidth />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      name="spec"
                       id="outlined-name"
                       label="Specialisation"
-                      value={this.state.name}
+                      value={this.state.spec}
+                      onChange={this.handleChange}
                       margin="normal"
                       variant="outlined"
                       fullWidth />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                    name="teacherId"
                       id="outlined-name"
                       label="Teacher-ID"
-                      value={this.state.name}
+                      value={this.state.teacherId}
+                      onChange={this.handleChange}
                       margin="normal"
                       variant="outlined"
                       fullWidth />
                   </Grid>
-                  <Grid item xs>
-                    <FormControl>
-                      <InputLabel htmlFor="age-simple">Subject</InputLabel>
-                      <Select style={{width:150}}
-                      value={this.state.age}
-                      onChange={this.handleChange}
-                      inputProps={{
-                      name: 'age',
-                      id: 'age-simple',
-                      }}>
-                        <MenuItem value=""><em>None</em></MenuItem>
-                        <MenuItem value={10}>OS</MenuItem>
-                        <MenuItem value={20}>AOA</MenuItem>
-                        <MenuItem value={20}>COA</MenuItem>
-                        <MenuItem value={20}>OSL</MenuItem>
-                        <MenuItem value={20}>Maths</MenuItem>
-                        <MenuItem value={20}>CG</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
+
+                 
+                 
                 </Grid>
               </form>
               <div>
-                <Button variant="contained" color="primary"  className={classes.button}>Submit</Button>
+                <Button variant="contained" color="primary"  className={classes.button} onClick={this.handleSubmit}>Submit</Button>
               </div>
             </div>
           </Grid>
@@ -139,6 +177,7 @@ class Teacher extends React.Component{
           </Grid>
         </Grid>
         </Paper>
+        {this.state.signup && <Redirect to="/teachermain" />}
         
       </div>
     );
