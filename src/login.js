@@ -185,7 +185,7 @@ class login extends React.Component {
            Sign In
          </Button>
         </form>
-        <Typography variant="h6">Don't have an account? <Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
+        <Typography variant="h6" style={{marginTop:10}}>Don't have an account? <Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
 
         </Paper>
         {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId}} />}

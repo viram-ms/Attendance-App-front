@@ -76,7 +76,7 @@ class Datepicker extends React.Component {
         </MuiPickersUtilsProvider>
       
      <br />
-      <Button variant="outlined" color="primary" onClick={updateChange} className={classes.button}> Submit</Button>
+      <Button variant="contained" color="primary" onClick={updateChange} className={classes.button}> Submit</Button>
       
       {/* {`${this.state.startDate}`} */}
       </div>

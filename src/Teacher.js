@@ -9,10 +9,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import {Redirect} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
+import {Link} from 'react-router-dom';
 const styles = theme => ({
   root: {
     margin:'auto',
-    maxWidth:650,
+    maxWidth:550,
     height:'100vh',
     flexWrap: 'wrap',
     textAlign:'center',
@@ -21,7 +22,7 @@ const styles = theme => ({
     // }
   },
   Grid: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit ,
     textAlign: 'center',
   },
   text: {
@@ -32,14 +33,14 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
   },
   button: {
-    margin: 40,
+    margin: 20,
     padding: 2,
     height: 50,
     width: 300,
 
   },
   paper: {
-    padding:25,
+    padding:15,
     alignItems:'center'
     
     
@@ -119,7 +120,7 @@ class Teacher extends React.Component{
           
             <div>
               <form autoComplete="off">
-                <Grid container spacing={24}>
+                <Grid container>
                   <Grid item xs={12}>
                     <TextField
                     name="fname"
@@ -189,6 +190,8 @@ class Teacher extends React.Component{
           <Grid item xs>
           </Grid>
         </Grid>
+        <Typography variant="h6" style={{marginTop:10}}>Already have an account? <Link to="/" style={{textDecoration:'none'}}>Sign In</Link></Typography>
+
         </Paper>
         {this.state.signup && <Redirect to="/teachermain" />}
         
