@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -65,18 +66,23 @@ function createData(name, sap, percent) {
   return { id, name, sap, percent };
 }
 
-const rows = [
-  createData('Viram shah', 60004170122, 60),
-  createData('vishal shah', 60004170123, 80),
-  createData('Viraj shah', 60004170123, 74),
-  createData('yash shah', 60004170124, 85),
-  createData('vasu shah', 60004170125, 40)
+// const rows = [
+//   createData('Viram shah', 60004170122, 60),
+//   createData('vishal shah', 60004170123, 80),
+//   createData('Viraj shah', 60004170123, 74),
+//   createData('yash shah', 60004170124, 85),
+//   createData('vasu shah', 60004170125, 40)
 
-];
+// ];
 
 class CustomizedTable extends React.Component {
+
+  
+  
+
     render(){
-        const { classes } = this.props;
+        const { classes,attendance } = this.props;
+        console.log(attendance.length);
         return (
           // <Grid container>
           // <Grid item xs={12} sm={2}>
@@ -89,18 +95,20 @@ class CustomizedTable extends React.Component {
           // </Grid>
 
 <Paper className={classes.root}>
+
+ {(attendance.length == 0) && <Typography variant="h6" align="center">No lecture today</Typography>}
             
 <Table className={classes.table}>
   <TableHead>
     <TableRow >
       <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Name</CustomTableCell>
       <CustomTableCell    className={classes.tableCenter} style={{fontSize:'1rem'}}>Sap ID</CustomTableCell>
-      <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Percentage</CustomTableCell>
+      <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Attendance</CustomTableCell>
     
     </TableRow>
   </TableHead>
   <TableBody >
-    {rows.map(row => (
+    {attendance.map(row => (
 
       <TableRow className={classes.row} key={row.id}>
         <CustomTableCell component="th" scope="row"  className={classes.tableCenter}>
@@ -108,10 +116,12 @@ class CustomizedTable extends React.Component {
           {row.name}
         </Link>
         </CustomTableCell>
-        <CustomTableCell   className={classes.tableCenter} >{row.sap}</CustomTableCell>
-        {
-          row.percent > 75 ?  <CustomTableCell   className={classes.green} >{row.percent}</CustomTableCell> :  <CustomTableCell className={classes.red}   >{row.percent}</CustomTableCell>
-        }
+        <CustomTableCell   className={classes.tableCenter} >{row.sapID}</CustomTableCell>
+        {/* {
+          row.percent > 75 ?  <CustomTableCell   className={classes.green} >{row.attendance}</CustomTableCell> :  <CustomTableCell className={classes.red}   >{row.percent}</CustomTableCell>
+        } */}
+        <CustomTableCell   className={classes.tableCenter} >{row.attendance}</CustomTableCell>
+
        
     
       </TableRow>

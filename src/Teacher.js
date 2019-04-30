@@ -7,6 +7,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {Redirect} from 'react-router-dom';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@material-ui/core/Avatar';
 const styles = theme => ({
   root: {
     margin:'auto',
@@ -25,6 +27,10 @@ const styles = theme => ({
   text: {
     color: 'black',
   },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main,
+  },
   button: {
     margin: 40,
     padding: 2,
@@ -34,6 +40,7 @@ const styles = theme => ({
   },
   paper: {
     padding:25,
+    alignItems:'center'
     
     
    },
@@ -56,7 +63,7 @@ class Teacher extends React.Component{
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log('hi');
-    const res=await fetch('http://10.120.105.66:8000/Attendance/signup-teacher/', {
+    const res=await fetch('http://wizdem.pythonanywhere.com/Attendance/signup-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,6 +83,8 @@ class Teacher extends React.Component{
     console.log(data);
 
     if(res.status === 200){
+      localStorage.setItem('token',data.token);
+
      
       this.setState({
         signup:true
@@ -97,17 +106,21 @@ class Teacher extends React.Component{
       <div className={classes.root}>
         <PersistentDrawerLeft />
         <Paper className={classes.paper}>
+        <Avatar className={classes.avatar} align="center" style={{margin:'auto',marginBottom:15}}>
+         <LockOutlinedIcon />
+       </Avatar>
+       <Typography component="h1" variant="h5">
+         Sign Up
+       </Typography>
         <Grid container spacing={12} >
           <Grid item xs> 
           </Grid>
           <Grid item xs>
-            <div>
-              <Typography component="h2" variant="display3" gutterBottom className={classes.text}>Teacher</Typography>
-            </div>
+          
             <div>
               <form autoComplete="off">
                 <Grid container spacing={24}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <TextField
                     name="fname"
                     id="outlined-name"
@@ -115,10 +128,10 @@ class Teacher extends React.Component{
                     value={this.state.fname}
                     onChange={this.handleChange}
                     margin="normal"
-                    variant="outlined"
+                    autoFocus
                     fullWidth />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <TextField
                     name="lname"
                     id="outlined-name"
@@ -126,7 +139,7 @@ class Teacher extends React.Component{
                     value={this.state.lname}
                     onChange={this.handleChange}
                     margin="normal"
-                    variant="outlined"
+                    
                     fullWidth />
                   </Grid>
                   <Grid item xs={12}>
@@ -138,7 +151,7 @@ class Teacher extends React.Component{
                       value={this.state.password}
                       onChange={this.handleChange}
                       margin="normal"
-                      variant="outlined"
+                      
                       fullWidth />
                   </Grid>
                   <Grid item xs={12}>
@@ -149,7 +162,7 @@ class Teacher extends React.Component{
                       value={this.state.spec}
                       onChange={this.handleChange}
                       margin="normal"
-                      variant="outlined"
+                      
                       fullWidth />
                   </Grid>
                   <Grid item xs={12}>
@@ -160,7 +173,7 @@ class Teacher extends React.Component{
                       value={this.state.teacherId}
                       onChange={this.handleChange}
                       margin="normal"
-                      variant="outlined"
+                      
                       fullWidth />
                   </Grid>
 

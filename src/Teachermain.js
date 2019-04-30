@@ -19,7 +19,7 @@ class Teachermain extends React.Component{
         //     taught_subjects:this.props.location.state.taught_subjects
         // });
 
-        const res=await fetch(`http://10.120.105.66:8000/Attendance/dashboard-teacher/${this.props.location.state}`, {
+        const res=await fetch(`http://wizdem.pythonanywhere.com/Attendance/dashboard-teacher/${this.props.location.state}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

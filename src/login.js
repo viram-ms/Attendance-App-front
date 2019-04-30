@@ -6,41 +6,50 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import {Redirect} from 'react-router-dom';
+import { Typography } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@material-ui/core/Avatar';
+import {Link } from 'react-router-dom';
+
+
 
 const styles = theme => ({
-  root: {
-    margin:'auto',
-    maxWidth:550,
-    flexWrap: 'wrap',
-    textAlign:'center'
-  },
-  formControl: {
-    width:300,
-    fontSize:16
-
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-  button: {
-    padding: 20,
-    margin: 20,
-    width: 300,
-    '&:hover': {
-      backgroundColor: 'black',
-    }
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   paper: {
-   padding:25,
-
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
-  intro: {
-    margin:'auto'
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main,
   },
-  title:{
-    maxWidth:500,
-    margin:'auto',
-  }
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+   //  backgroundColor:'#25aae1',
+   //  '&:hover': {
+   //   backgroundColor:"#25aae1",
+   // },
+  },
 });
 
 class login extends React.Component {
@@ -70,9 +79,10 @@ class login extends React.Component {
     // }
   }
 
-   handle_login = async () => {
+   handle_login = async (e) => {
+     e.preventDefault();
     console.log('hey');
-   const res=await fetch('http://10.120.105.66:8000/Attendance/login-teacher/', {
+   const res=await fetch('http://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -127,33 +137,56 @@ class login extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root} >
+      <div className={classes.main} >
         <PersistentDrawerLeft />
         <Paper className={classes.paper}>
-        <form  autoComplete="off">
-        <h1>LOGIN</h1>
-        <TextField style={{ width: 500 }}
+        
+        <Avatar className={classes.avatar}>
+         <LockOutlinedIcon />
+       </Avatar>
+       <Typography component="h1" variant="h5">
+         Sign In
+       </Typography>
+       <form  autoComplete="off">
+        {/* <TextField style={{ maxWidth: 300 }}
           id="name"
           onChange={this.handleChange}
           label="Name"
           type="text"
           name="teacherId"
           margin="normal"
-          variant="outlined"
+          
         />
-        <TextField style={{ width: 500 }}
+        <TextField style={{ maxWidth: 300 }}
           id="password"
           label="Password"
           onChange={this.handleChange}
           type="password"
           name="password"
           margin="normal"
-          variant="outlined"
-        />
-        <div className={classes.intro}>
-          <Button variant="contained" color="primary" className={classes.button} onClick={this.handle_login}>Submit</Button>
-        </div>
+          
+        /> */}
+        <FormControl margin="normal" required fullWidth>
+           <InputLabel htmlFor="email">Teacher Id</InputLabel>
+           <Input id="name" name="teacherId" autoComplete="email" autoFocus value={this.state.name} onChange={this.handleChange}/>
+         </FormControl>
+         <FormControl margin="normal" required fullWidth>
+           <InputLabel htmlFor="password">Password</InputLabel>
+           <Input name="password" type="password" id="password" value={this.state.password} onChange={this.handleChange} autoComplete="current-password" />
+         </FormControl>
+         <Button
+           
+           fullWidth
+           variant="contained"
+           color="primary"
+           className={classes.submit}
+           onClick={this.handle_login}
+         >
+           Sign In
+         </Button>
         </form>
+        <Typography variant="h6">Don't have an account? <Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
+
         </Paper>
         {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId}} />}
       </div>

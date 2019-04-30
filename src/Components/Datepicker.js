@@ -1,9 +1,12 @@
 import React from "react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
+import { DatePicker } from "material-ui-pickers";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
  
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -52,11 +55,26 @@ class Datepicker extends React.Component {
     const{ classes,handleChange,updateChange,startDate }= this.props
     return (
       <div className={classes.root} >
-        <DatePicker
+        {/* <DatePicker
         selected={startDate}
         onChange={handleChange}
         className={classes.date}
-      />
+      /> */}
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+       <DatePicker
+          label="Date of birth"
+          value={startDate}
+          disableFuture
+          openTo="day"
+          // format={props.getFormatString({
+          //   moment: "DD/MM/YYYY",
+          //   dateFns: "dd/MM/yyyy",
+          // })}
+          // views={["year", "month", "day"]}
+          onChange={handleChange}
+        />
+        </MuiPickersUtilsProvider>
+      
      <br />
       <Button variant="outlined" color="primary" onClick={updateChange} className={classes.button}> Submit</Button>
       

@@ -55,7 +55,7 @@ class Mysubjectcard extends React.Component {
       <Grid container spacing={16}>
       {this.props.taught_subjects.map((subject) => {
         return(
-        <Grid item md={6}>
+        <Grid item xs={12} sm={12} md={6}>
           <Card className={classes.card}>
             <CardContent>
               <Typography variant="h5" gutterBottom className={classes.content}><b>{subject.name}</b></Typography>
@@ -70,7 +70,7 @@ class Mysubjectcard extends React.Component {
         <CloudDownloadIcon className={classes.rightIcon} />
               </Button>
               <Link to={{
-                pathname:`/attendanceTable/${subject.div}`, state:subject}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
                 View
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>

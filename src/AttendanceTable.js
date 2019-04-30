@@ -17,7 +17,8 @@ class AttendanceTable extends React.Component {
 
   state={
     startDate: new Date(),
-    formattedDate:''
+    formattedDate:'',
+    attendance:[]
   }
   handleChange = (date) => {
     this.setState({
@@ -41,7 +42,7 @@ class AttendanceTable extends React.Component {
           formattedDate
         });
 
-        const res=await fetch(`http://10.120.105.66:8000/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+        const res=await fetch(`http://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -58,6 +59,9 @@ class AttendanceTable extends React.Component {
          
           
           console.log('fuck off');
+          this.setState({
+            attendance:data.attendance
+          })
     
       }
     
@@ -81,7 +85,7 @@ class AttendanceTable extends React.Component {
         })
         console.log(this.state.formattedDate);
     
-    const res=await fetch(`http://10.120.105.66:8000/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+    const res=await fetch(`http://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -95,6 +99,9 @@ class AttendanceTable extends React.Component {
     console.log(data);
 
     if(res.status === 200){
+      this.setState({
+        attendance:data.attendance
+      })
      
       
       console.log('fuck off');
@@ -113,7 +120,7 @@ class AttendanceTable extends React.Component {
             <Grid item md={12} lg={1}>
             </Grid>
             <Grid item md={12} lg={7}>
-            <CustomizedTable />
+            <CustomizedTable attendance={this.state.attendance}/>
             </Grid>
             <Grid item md={12} lg={4} style={{padding:'25px 50px'}}>
             <Datepicker startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
