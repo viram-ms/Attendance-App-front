@@ -13,6 +13,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {Link } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
@@ -60,8 +65,13 @@ class login extends React.Component {
     username: '',
     password:'',
     teacherId:'',
+    open: false,
    
 
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
 
@@ -94,21 +104,25 @@ class login extends React.Component {
         password: this.state.password,
       })
     })
-    console.log(res);
+    console.log(res.status);
+    if(res.status === 500){
+      console.log('ji');
+      this.setState({
+        open:true
+      })
+    }
+
     const data = await res.json();
     console.log(data);
 
     if(res.status === 200){
       localStorage.setItem('token',data.token);
-      
       this.setState({
         logged_in:true,
-      
-
       });
       console.log(this.state);
-
     }
+     
       // .then(res => console.log(res.json())  )
 
     //   .catch(error => {
@@ -189,6 +203,25 @@ class login extends React.Component {
 
         </Paper>
         {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId}} />}
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+         
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Incorrect Teacher ID and Password. Please Try Again.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            
+            <Button onClick={this.handleClose} color="primary" autoFocus>
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
