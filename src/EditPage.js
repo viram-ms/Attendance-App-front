@@ -299,7 +299,7 @@ class EditPage extends React.Component {
             <Datepicker  startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
             </Grid>
             </Grid>
-            <Button variant="contained" onClick={this.handleSubmit}>Post Change</Button>
+            <Button variant="contained" onClick={this.handleSubmit} color="primary" style={{margin:10}}>Post Change</Button>
         </div>
         );
     }
