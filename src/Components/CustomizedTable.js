@@ -82,7 +82,7 @@ class CustomizedTable extends React.Component {
 
     render(){
         const { classes,attendance } = this.props;
-        console.log(attendance.length);
+        console.log(attendance);
         return (
           // <Grid container>
           // <Grid item xs={12} sm={2}>
@@ -97,6 +97,7 @@ class CustomizedTable extends React.Component {
 <Paper className={classes.root}>
 
  {(attendance.length == 0) && <Typography variant="h6" align="center">No lecture today</Typography>}
+
             
 <Table className={classes.table}>
   <TableHead>
@@ -104,15 +105,18 @@ class CustomizedTable extends React.Component {
       <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Name</CustomTableCell>
       <CustomTableCell    className={classes.tableCenter} style={{fontSize:'1rem'}}>Sap ID</CustomTableCell>
       <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Attendance</CustomTableCell>
+      <CustomTableCell  className={classes.tableCenter} style={{fontSize:'1rem'}}>Timing</CustomTableCell>
+
     
     </TableRow>
   </TableHead>
   <TableBody >
-    {attendance.map(row => (
+    {attendance.length>0 && attendance.map((item) => item.attendance_list.map(row => (
 
       <TableRow className={classes.row} key={row.id}>
         <CustomTableCell component="th" scope="row"  className={classes.tableCenter}>
-      <Link to={`student/${row.sap}`} style={{textDecoration:'none',color:'black'}}>
+      <Link to={ {pathname:`/student/$${row.sapID}`, subject:this.props.subject,sapID:row.sapID}} style={{textDecoration:'none',color:'black'}}>
+     
           {row.name}
         </Link>
         </CustomTableCell>
@@ -121,11 +125,13 @@ class CustomizedTable extends React.Component {
           row.percent > 75 ?  <CustomTableCell   className={classes.green} >{row.attendance}</CustomTableCell> :  <CustomTableCell className={classes.red}   >{row.percent}</CustomTableCell>
         } */}
         <CustomTableCell   className={classes.tableCenter} >{row.attendance}</CustomTableCell>
+        <CustomTableCell   className={classes.tableCenter} >{item.time}</CustomTableCell>
+
 
        
     
       </TableRow>
-    ))}
+    )))}
   </TableBody>
 </Table>
 </Paper>

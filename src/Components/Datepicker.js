@@ -15,7 +15,8 @@ const styles = theme => ({
     root:{
       margin:'auto',
       textAlign:'center',
-      display:'flex'
+      display:'flex',
+      justifyContent:'center'
     },
 
     date:{

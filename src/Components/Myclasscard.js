@@ -79,10 +79,11 @@ class Myclasscard extends React.Component {
                   View
                 <RemoveRedEyeIcon className={classes.rightIcon} />
                 </Button></Link>
-                <Button variant="contained" color="default" className={classes.button}>
-                  Edit
-                <CreateIcon className={classes.rightIcon} />
-                </Button>
+                <Link to={{
+                pathname:`/editTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                Edit
+        <CreateIcon className={classes.rightIcon} />
+              </Button></Link>
               </CardActions>
             </Card>
           </Grid>

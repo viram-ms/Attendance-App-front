@@ -42,7 +42,7 @@ class AttendanceTable extends React.Component {
           formattedDate
         });
 
-        const res=await fetch(`http://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+        const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class AttendanceTable extends React.Component {
         })
         console.log(this.state.formattedDate);
     
-    const res=await fetch(`http://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ class AttendanceTable extends React.Component {
             <Grid item md={12} lg={1}>
             </Grid>
             <Grid item md={12} lg={7}>
-            <CustomizedTable attendance={this.state.attendance}/>
+            <CustomizedTable attendance={this.state.attendance} subject={this.props.location.state.name}/>
             </Grid>
             <Grid item md={12} lg={4} style={{padding:'25px 50px'}}>
             <Datepicker startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>

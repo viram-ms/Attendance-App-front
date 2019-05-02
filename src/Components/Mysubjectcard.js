@@ -74,10 +74,11 @@ class Mysubjectcard extends React.Component {
                 View
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>
-              <Button variant="contained" color="default" className={classes.button}>
+              <Link to={{
+                pathname:`/editTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
                 Edit
         <CreateIcon className={classes.rightIcon} />
-              </Button>
+              </Button></Link>
             </CardActions>
           </Card>
         </Grid>

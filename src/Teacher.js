@@ -64,7 +64,7 @@ class Teacher extends React.Component{
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log('hi');
-    const res=await fetch('http://wizdem.pythonanywhere.com/Attendance/signup-teacher/', {
+    const res=await fetch('https://wizdem.pythonanywhere.com/Attendance/signup-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -92,7 +92,7 @@ class login extends React.Component {
    handle_login = async (e) => {
      e.preventDefault();
     console.log('hey');
-   const res=await fetch('http://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
+   const res=await fetch('https://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

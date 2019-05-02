@@ -44,10 +44,12 @@ class App extends Component {
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/subject" component={Subject} />
         <Route exact path="/attendanceTable/:div" component={AttendanceTable} />
-        <Route exact path="/student/:id" component={AttendanceStudent} />
+        <Route exact path="/editTable/:div" component={EditPage} />
+
+        {/* <Route exact path="/student/:id" component={AttendanceStudent} /> */}
         <Route exact path="/teachermain" component={Teachermain} />
         <Route exact path="/attendfordate" component={AttendForDate} />
-        <Route exact path="/StudentAttend" component={StudentAttend} />
+        <Route exact path="/Student/:id" component={StudentAttend} />
         <Route exact path="/EditPage" component={EditPage} />
       </Switch>
       </div>
