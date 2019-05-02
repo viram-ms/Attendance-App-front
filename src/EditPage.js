@@ -256,7 +256,7 @@ class EditPage extends React.Component {
         <div>
             <PersistentDrawerLeft />
             <Grid container className={classes.table}>
-            <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid>
+            {/* <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid> */}
             </Grid>
             <Grid container className={classes.table}>
             
