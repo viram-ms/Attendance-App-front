@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Paper, Grid } from '@material-ui/core';
+import { Paper, Grid, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -128,6 +128,9 @@ class EditPage extends React.Component {
         this.setState({
           message:data.success_message
         })
+      if(res.status === 200){
+        alert("Attendance Edited");
+        console.log('done');
   
     }
     }
@@ -208,7 +211,7 @@ class EditPage extends React.Component {
               })
         
           }
-        
+        }
     
       }
     
