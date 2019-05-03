@@ -69,6 +69,7 @@ const rows = [
 class EditPage extends React.Component {
 
     state = {
+      message:'',
       startDate: new Date(),
     formattedDate:'',
       check: true,
@@ -122,9 +123,11 @@ class EditPage extends React.Component {
       const data = await res.json();
       console.log(data);
   
-      if(res.status === 200){
+      if(res){
         
-        console.log('done');
+        this.setState({
+          message:data.success_message
+        })
   
     }
     }
@@ -169,6 +172,9 @@ class EditPage extends React.Component {
       updateChange = async (event) => {
         event.preventDefault();
         var completeDate=this.state.startDate;
+        this.setState({
+          message:''
+        })
         console.log(this.state.startDate);
         var date=completeDate.getDate();
         var month =completeDate.getMonth()+1;
@@ -249,13 +255,14 @@ class EditPage extends React.Component {
     render(){
         const { classes } = this.props;
         console.log(rows);
-        const {attendance} = this.state;
+        const {attendance,message} = this.state;
     
 
         return (
         <div>
             <PersistentDrawerLeft />
             <Grid container className={classes.table}>
+ <Grid item xs={12}>{(attendance.length == 0) && <Typography variant="h6" style={{margin:10}}>No lecture today</Typography>}</Grid>
             {/* <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid> */}
             </Grid>
             <Grid container className={classes.table}>
@@ -300,6 +307,7 @@ class EditPage extends React.Component {
             </Grid>
             </Grid>
             <Button variant="contained" onClick={this.handleSubmit} color="primary" style={{margin:10}}>Post Change</Button>
+            {message.length > 0 && <Typography variant="h6" style={{margin:10}}>{message}</Typography>}
         </div>
         );
     }
