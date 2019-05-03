@@ -134,6 +134,7 @@ class EditPage extends React.Component {
   
     }
     }
+  }
 
    
     
