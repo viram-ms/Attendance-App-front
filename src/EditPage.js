@@ -81,8 +81,6 @@ class EditPage extends React.Component {
       ],
       attendance:[],
       attendance_list:[]
-      
-
     }
 
     handleSubmit = async (event) =>{
@@ -163,15 +161,14 @@ class EditPage extends React.Component {
       }
         
         console.log(this.state);
-      };
-
+      }
       handleChange = (date) => {
         this.setState({
           startDate: date,
          
         });
-    
       }
+  
     
       updateChange = async (event) => {
         event.preventDefault();
@@ -214,8 +211,6 @@ class EditPage extends React.Component {
           }
         }
     
-      }
-    
       async componentDidMount(){
         console.log('hi');
         console.log(this.props);
@@ -255,7 +250,7 @@ class EditPage extends React.Component {
     
       }
     }
-
+  
     render(){
         const { classes } = this.props;
         console.log(rows);
