@@ -61,7 +61,7 @@ class login extends React.Component {
 
   state = {
     age: '',
-    logged_in: localStorage.getItem('token') ? true : false,
+    logged_in:false,
     username: '',
     password:'',
     teacherId:'',
@@ -202,7 +202,7 @@ class login extends React.Component {
         <Typography variant="h6" style={{marginTop:10}}>Don't have an account? <Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
 
         </Paper>
-        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId}} />}
+        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId,logged_in:this.state.logged_in}} />}
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

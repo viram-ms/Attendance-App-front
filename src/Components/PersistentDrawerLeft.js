@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Assignment from '@material-ui/icons/Assignment';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -128,10 +129,10 @@ class PersistentDrawerLeft extends React.Component {
             <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
+             
               className={classNames(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              <Assignment />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap style={{flexGrow:1}}>
               Attendance Web
@@ -139,7 +140,7 @@ class PersistentDrawerLeft extends React.Component {
             <Link to="/" style={{textDecoration:'none',color:'white'}}><Typography onClick={this.handleLogout} variant="h6" color="inherit" style={{marginRight:10}} >Logout</Typography></Link>
           </Toolbar>
         </AppBar>
-        <Drawer
+        {/* <Drawer
           className={classes.drawer}
           variant="persistent"
           anchor="left"
@@ -215,7 +216,7 @@ class PersistentDrawerLeft extends React.Component {
 
 
 
-        </Drawer>
+        </Drawer> */}
         <main
           className={classNames(classes.content, {
             [classes.contentShift]: open,
