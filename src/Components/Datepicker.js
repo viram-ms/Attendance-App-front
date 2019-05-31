@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
-import { DatePicker } from "material-ui-pickers";
+import { DatePicker, MuiPickersUtilsProvider, } from "material-ui-pickers";
+import DateFnsUtils from "@date-io/date-fns";
  
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -59,18 +60,20 @@ class Datepicker extends React.Component {
         className={classes.date}
       /> */}
        <div className="picker">
+       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
           label="Date of birth"
-          // value={selectedDate}
+          value={startDate}
           disableFuture
           openTo="year"
           // format={getFormatString({
           //   moment: "DD/MM/YYYY",
           //   // dateFns: "dd/MM/yyyy",
           // })}
-          views={["year", "month", "day"]}
+          views={["month", "day"]}
           onChange={handleChange}
         />
+         </MuiPickersUtilsProvider>
       </div>
      <br />
       <Button variant="outlined" color="primary" onClick={updateChange} className={classes.button}> Submit</Button>
