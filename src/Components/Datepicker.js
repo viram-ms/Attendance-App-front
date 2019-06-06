@@ -62,7 +62,7 @@ class Datepicker extends React.Component {
        <div className="picker">
        <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
-          label="Date of birth"
+          label="Choose Date"
           value={startDate}
           disableFuture
           openTo="year"
