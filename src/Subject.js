@@ -57,7 +57,6 @@ class Subject extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log("hi");
     this.setState({
       semester:'',
       subject:'',
@@ -67,12 +66,11 @@ class Subject extends React.Component {
 
   handleProceed = event => {
     event.preventDefault();
-    console.log('hey');
   }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(this.state);
+    
   };
   render() {
     const { classes } = this.props;

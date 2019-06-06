@@ -82,7 +82,6 @@ class CustomizedTable extends React.Component {
 
     render(){
         const { classes,attendance } = this.props;
-        console.log(attendance);
         return (
           // <Grid container>
           // <Grid item xs={12} sm={2}>

@@ -91,7 +91,7 @@ class login extends React.Component {
 
    handle_login = async (e) => {
      e.preventDefault();
-    console.log('hey');
+   
    const res=await fetch('https://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
@@ -104,39 +104,26 @@ class login extends React.Component {
         password: this.state.password,
       })
     })
-    console.log(res.status);
+    
     if(res.status === 500){
-      console.log('ji');
+      
       this.setState({
         open:true
       })
     }
 
     const data = await res.json();
-    console.log(data);
+    
 
     if(res.status === 200){
       localStorage.setItem('token',data.token);
       this.setState({
         logged_in:true,
       });
-      console.log(this.state);
+      
     }
      
-      // .then(res => console.log(res.json())  )
-
-    //   .catch(error => {
-    //     console.log(error, "catch the hoop");
-    // });
-
-      // .then(json => {
-      //   localStorage.setItem('token', json.token);
-      //   this.setState({
-      //     logged_in: true,
-      //     displayed_form: '',
-      //     teacherId: json.user.teacherId
-      //   });
-      // });
+   
   };
 
   handle_logout = () => {
@@ -146,7 +133,7 @@ class login extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(this.state)
+    
   };
   render() {
     const { classes } = this.props;

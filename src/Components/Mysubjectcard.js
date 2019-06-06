@@ -52,7 +52,6 @@ class Mysubjectcard extends React.Component {
 
     async handleClick(subject,div){
       //alert("heyyyy");
-    console.log(`https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/01-01-2019/01-05-2019`);
     const url = `https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/01-01-2019/01-05-2019`;
     const res1 = await fetch(url,{
       method: 'GET',
@@ -69,10 +68,7 @@ class Mysubjectcard extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log("Hello");
-    console.log(this.props.taught_subjects);
-    console.log(this.props.taught_subjects.div);
-    console.log("End");
+  
     
 
     return (

@@ -35,12 +35,11 @@ class AttendanceTable extends React.Component {
   updateChange = async (event) => {
     event.preventDefault();
     var completeDate=this.state.startDate;
-    console.log(this.state.startDate);
     var date=completeDate.getDate();
     var month =completeDate.getMonth()+1;
     var year = completeDate.getFullYear();
     
-        console.log(date +"/"+month+"/"+year);
+        
         const formattedDate = date + "-" + month + "-" + year;
         await this.setState({
           formattedDate
@@ -55,14 +54,14 @@ class AttendanceTable extends React.Component {
           },
           // mode: 'no-cors',
         })
-        console.log(res);
+        
         const data = await res.json();
-        console.log(data);
+        
     
         if(res.status === 200){
          
           
-          console.log('fuck off');
+          
           this.setState({
             attendance:data.attendance
           })          
@@ -72,21 +71,16 @@ class AttendanceTable extends React.Component {
   }
 
   async componentDidMount(){
-    console.log('hi');
-    console.log(this.props);
+    
     var completeDate=this.state.startDate;
-    console.log(this.state.startDate);
     var date=completeDate.getDate();
     var month =completeDate.getMonth()+1;
     var year = completeDate.getFullYear();
     
-        console.log(date +"/"+month+"/"+year);
         const formatdDate = date + "-" + month + "-" + year;
-        console.log(formatdDate);
         await this.setState({
           formattedDate:formatdDate
         })
-        console.log(this.state.formattedDate);
     
     const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
       method: 'GET',
@@ -97,16 +91,16 @@ class AttendanceTable extends React.Component {
       },
       // mode: 'no-cors',
     })
-    console.log(res);
+    
     const data = await res.json();
-    console.log(data);
+    
 
     if(res.status === 200){
       this.setState({
         attendance:data.attendance
       })
       
-      console.log('fuck off');
+      
 
   }
 }

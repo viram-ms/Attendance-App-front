@@ -85,27 +85,21 @@ class EditPage extends React.Component {
 
     handleSubmit = async (event) =>{
       event.preventDefault();
-      console.log('hi');
+      
       var completeDate=this.state.startDate;
-      console.log(this.state.startDate);
       var date=completeDate.getDate();
       var month =completeDate.getMonth()+1;
       var year = completeDate.getFullYear();
       
-          console.log(date +"/"+month+"/"+year);
           const formatdDate = date + "-" + month + "-" + year;
-          console.log(formatdDate);
           await this.setState({
             formattedDate:formatdDate
           })
-          console.log(this.state.formattedDate);
 
           let postData = {attendance_list:[{time:this.state.attendance[0].time,attendance_list:this.state.attendance_list}]}
-          console.log(postData);
           const formData = new FormData();
           formData.append('attendance',JSON.stringify(postData));
           // formData.append('viram','viram');
-          console.log(formData);
       const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/edit-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
         method: 'POST',
         headers: {
@@ -117,9 +111,9 @@ class EditPage extends React.Component {
        
         // mode: 'no-cors',
       })
-      console.log(res);
+      
       const data = await res.json();
-      console.log(data);
+      
   
       if(res){
         
@@ -128,7 +122,6 @@ class EditPage extends React.Component {
         })
       if(res.status === 200){
         alert("Attendance Edited");
-        console.log('done');
   
     }
     }
@@ -137,30 +130,24 @@ class EditPage extends React.Component {
    
     
     handleChangeCheck = (Sap_id,id) => event => {
-      console.log(Sap_id,id);
-      console.log(event.target.checked);
       let studentsCopy = this.state.attendance[0].attendance_list;
       if(studentsCopy[id].attendance == 1){
-        console.log('hi');
-        console.log(studentsCopy);
+        
 
         studentsCopy[id] = {...studentsCopy[id],attendance:0}
-        console.log(studentsCopy[id]);
         this.setState({
           attendance_list:studentsCopy
         })
 
       }
       else{
-        console.log('bye');
         studentsCopy[id] = {...studentsCopy[id],attendance:1}
-        console.log(studentsCopy[id]);
         this.setState({
           attendance_list:studentsCopy
         })
       }
         
-        console.log(this.state);
+        
       }
       handleChange = (date) => {
         this.setState({
@@ -176,12 +163,10 @@ class EditPage extends React.Component {
         this.setState({
           message:''
         })
-        console.log(this.state.startDate);
         var date=completeDate.getDate();
         var month =completeDate.getMonth()+1;
         var year = completeDate.getFullYear();
         
-            console.log(date +"/"+month+"/"+year);
             const formattedDate = date + "-" + month + "-" + year;
             await this.setState({
               formattedDate
@@ -196,14 +181,14 @@ class EditPage extends React.Component {
               },
               // mode: 'no-cors',
             })
-            console.log(res);
+            
             const data = await res.json();
-            console.log(data);
+            
         
             if(res.status === 200){
              
               
-              console.log('fuck off');
+              
               this.setState({
                 attendance:data.attendance
               })
@@ -212,21 +197,16 @@ class EditPage extends React.Component {
         }
     
       async componentDidMount(){
-        console.log('hi');
-        console.log(this.props);
+        
         var completeDate=this.state.startDate;
-        console.log(this.state.startDate);
         var date=completeDate.getDate();
         var month =completeDate.getMonth()+1;
         var year = completeDate.getFullYear();
         
-            console.log(date +"/"+month+"/"+year);
             const formatdDate = date + "-" + month + "-" + year;
-            console.log(formatdDate);
             await this.setState({
               formattedDate:formatdDate
             })
-            console.log(this.state.formattedDate);
         
         const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
           method: 'GET',
@@ -238,22 +218,20 @@ class EditPage extends React.Component {
          
           // mode: 'no-cors',
         })
-        console.log(res);
+        
         const data = await res.json();
-        console.log(data);
+        
     
         if(res.status === 200){
           this.setState({
             attendance:data
           })
-          console.log(this.state.attendance);
     
       }
     }
   
     render(){
         const { classes } = this.props;
-        console.log(rows);
         const {attendance,message} = this.state;
     
 

@@ -79,9 +79,9 @@ class StudentAttend extends React.Component {
       },
       // mode: 'no-cors',
     })
-    console.log(res);
+    
     const data = await res.json();
-    console.log(data);
+    
 
     if(res.status === 200){
       this.setState({
@@ -92,7 +92,7 @@ class StudentAttend extends React.Component {
       })
      
       
-      console.log('fuck off');
+      
 
   }
   }
