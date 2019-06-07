@@ -76,28 +76,42 @@ function createData(name, sap, percent) {
 // ];
 
 class CustomizedTable extends React.Component {
+state={
+  attendance: ''
+}
 
+componentDidMount(){
+  const {attendance} = this.props;
+  this.setState({
+    attendance
+  });
+  console.log(this.state);
+}
+
+componentDidUpdate(prevProps){
+  if(prevProps.attendance !== this.props.attendance){
+    this.setState({
+      attendance: this.props.attendance
+    })
+  }
+}
 
   
 
     render(){
-        const { classes,attendance } = this.props;
+        const { classes } = this.props;
+        const {attendance} = this.state;
         return (
-          // <Grid container>
-          // <Grid item xs={12} sm={2}>
-          // </Grid>
-          // <Grid item xs={12} sm={8}>
-          
-          // </Grid>
-          // <Grid item xs={12} sm={2}>
-          // </Grid>
-          // </Grid>
+         <div>
+
 
 <Paper className={classes.root}>
 
  {(attendance.length == 0) && <Typography variant="h6" align="center">No lecture today</Typography>}
 
-            
+ </Paper>   
+ <Paper>
+      
 <Table className={classes.table}>
   <TableHead>
     <TableRow >
@@ -134,6 +148,8 @@ class CustomizedTable extends React.Component {
   </TableBody>
 </Table>
 </Paper>
+</div>
+
             
           );
 

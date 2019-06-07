@@ -145,7 +145,7 @@ class AttendanceTableRange extends React.Component {
             <Datepicker startDate={this.state.endDate} handleChange={this.handleChangeEnd} updateChange={this.updateChange}/>
         </Grid>
             <Grid item md={12} lg={1} style={{padding:'25px'}}>
-            <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
+            <Button variant="contained" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
 
             </Grid>
           </Grid>

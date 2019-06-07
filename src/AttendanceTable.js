@@ -69,7 +69,7 @@ class AttendanceTable extends React.Component {
   }
 
   async componentDidMount(){
-    
+    console.log(this.state.startDate);
     var completeDate=this.state.startDate;
     var date=completeDate.getDate();
     var month =completeDate.getMonth()+1;
@@ -120,7 +120,7 @@ class AttendanceTable extends React.Component {
 
             </Grid>
             <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
-            <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
+            <Button variant="contained" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
 
             </Grid>
 

@@ -108,14 +108,19 @@ class StudentAttend extends React.Component {
           <Grid item xs={2}>
           </Grid>
           <Grid item xs={8}>
+          <Paper style={{padding: 20}}>
             <Grid container className={classes.table}>
-              <Grid item xs={6}><Typography align='center' variant="h5">SAP ID: {this.props.location.sapID}</Typography></Grid>
-              <Grid item xs={6} align='center' >
+              
+              <Grid item xs={6}><Typography align='center' variant="h5">Sap ID: {this.props.location.sapID}</Typography></Grid>
+              <Grid item xs={6} align='center' style={{textAlign: "justify"}}>
               <Typography variant="h6">Attendance count : {attendance_count}</Typography>
-          <Typography variant="h6">Attendance percentage : {attendance_percentage}</Typography>
-          <Typography variant="h6">Attendance total : {attendance_total}</Typography>
+              <Typography variant="h6">Attendance percentage : {attendance_percentage}</Typography>
+              <Typography variant="h6">Attendance total : {attendance_total}</Typography>
               </Grid>
+              
+             
             </Grid>
+            </Paper>
               <Grid item xs={12} sm={12}>
                 <Paper>
                   <Table>
