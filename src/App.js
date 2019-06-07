@@ -10,6 +10,8 @@ import Subject from './Subject';
 import Student from './Student';
 import Teacher from './Teacher';
 import AttendanceTable from './AttendanceTable';
+import AttendanceTableRange from './AttendanceTableRange';
+
 import AttendanceStudent from './AttendaceStudent';
 import Teachermain from './Teachermain';
 import login from './login';
@@ -44,6 +46,8 @@ class App extends Component {
         <Route exact path="/teacher" component={Teacher} />
         <Route exact path="/subject" component={Subject} />
         <Route exact path="/attendanceTable/:div" component={AttendanceTable} />
+        <Route exact path="/attendanceTable/range/:div" component={AttendanceTableRange} />
+
         <Route exact path="/editTable/:div" component={EditPage} />
 
         {/* <Route exact path="/student/:id" component={AttendanceStudent} /> */}

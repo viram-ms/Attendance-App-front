@@ -73,7 +73,9 @@ class Ttab extends React.Component {
           <TabContainer dir={theme.direction}>
             <Mysubjectcard taught_subjects={this.props.data.taught_subjects}/>
           </TabContainer>
-          <TabContainer  dir={theme.direction}><Myclasscard class_subjects={this.props.data.class_subjects}/></TabContainer>
+          <TabContainer  dir={theme.direction}>
+            <Myclasscard class_subjects={this.props.data.class_subjects}/>
+          </TabContainer>
         </SwipeableViews>
       </div>
     );

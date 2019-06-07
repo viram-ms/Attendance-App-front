@@ -77,7 +77,7 @@ function createData(name, sap, percent) {
 
 class CustomizedTable extends React.Component {
 
-  
+
   
 
     render(){

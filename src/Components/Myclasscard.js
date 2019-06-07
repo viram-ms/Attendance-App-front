@@ -12,6 +12,11 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import {Link,Redirect} from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 var Save_as = require('file-saver');
 
@@ -41,8 +46,20 @@ const styles = theme => ({
 });
 
 class Myclasscard extends React.Component {
-  state = { expanded: false };
+    
+    state = { expanded: false, open: false};
+  handleOpen = () =>{
+    this.setState({
+      open: true
+    })
+  }
 
+  handleClose = () =>{
+    this.setState({
+      open: false
+    })
+  }
+  
 
   async handleClick(subject,div){
     const url = `https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/01-01-2019/01-05-2019`;
@@ -87,11 +104,39 @@ class Myclasscard extends React.Component {
                   Download
                 <CloudDownloadIcon className={classes.rightIcon} />
                 </Button>
-                <Link to={{
+                <Button variant="contained" color="default" className={classes.button} onClick={this.handleOpen}>
+                View
+              <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button>
+                <Dialog
+     open={this.state.open}
+     onClose={this.handleClose}
+     aria-labelledby="form-dialog-title"
+     >
+       <div style={{display: 'flex'}}> 
+       <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
+         SELECT VIEWS
+         
+       </DialogTitle>
+       <Button  onClick={this.handleClose} color="primary" style={{padding:'10px'}}>
+            close
+          </Button>
+         </div>
+       
+       <DialogActions>
+       <Link to={{
                 pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
-                  View
-                <RemoveRedEyeIcon className={classes.rightIcon} />
-                </Button></Link>
+                View single date
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button></Link>
+              <Link to={{
+                pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                View range date
+        <RemoveRedEyeIcon className={classes.rightIcon} />
+              </Button></Link>
+         
+        </DialogActions>
+     </Dialog>
                 <Link to={{
                 pathname:`/editTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
                 Edit

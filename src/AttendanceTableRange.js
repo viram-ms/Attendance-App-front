@@ -18,35 +18,47 @@ const styles = theme => ({
 
 })
  
-class AttendanceTable extends React.Component {
+class AttendanceTableRange extends React.Component {
 
   state={
     startDate: new Date(),
-    formattedDate:'',
+    endDate: new Date(),
+    formattedDatestart:'',
+    formatdDateend:'',
     attendance:[]
   }
   handleChange = (date) => {
     this.setState({
       startDate: date,
-     
     });
-
+  }
+  handleChangeEnd = (date) => {
+    this.setState({
+      endDate: date,
+    });
   }
 
   updateChange = async (event) => {
     event.preventDefault();
-    var completeDate=this.state.startDate;
-    var date=completeDate.getDate();
-    var month =completeDate.getMonth()+1;
-    var year = completeDate.getFullYear();
-    
-        
-        const formattedDate = date + "-" + month + "-" + year;
-        await this.setState({
-          formattedDate
-        });
+    var startcompleteDate=this.state.startDate;
+    var startdate=startcompleteDate.getDate();
+    var startmonth =startcompleteDate.getMonth()+1;
+    var startyear = startcompleteDate.getFullYear();
 
-        const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+    var endcompleteDate=this.state.endDate;
+    var enddate=endcompleteDate.getDate();
+    var endmonth =endcompleteDate.getMonth()+1;
+    var endyear = endcompleteDate.getFullYear();
+    
+        const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
+        const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
+
+        await this.setState({
+            formattedDatestart:formatdDatestart,
+            formatdDateend: formatdDateend
+        })
+
+    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-range/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDatestart}/${this.state.formatdDateend}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +70,6 @@ class AttendanceTable extends React.Component {
         
         const data = await res.json();
         console.log(data);
-    
         if(res.status === 200){
           this.setState({
             attendance:data.attendance
@@ -70,17 +81,24 @@ class AttendanceTable extends React.Component {
 
   async componentDidMount(){
     
-    var completeDate=this.state.startDate;
-    var date=completeDate.getDate();
-    var month =completeDate.getMonth()+1;
-    var year = completeDate.getFullYear();
+    var startcompleteDate=this.state.startDate;
+    var startdate=startcompleteDate.getDate();
+    var startmonth =startcompleteDate.getMonth()+1;
+    var startyear = startcompleteDate.getFullYear();
+
+    var endcompleteDate=this.state.endDate;
+    var enddate=endcompleteDate.getDate();
+    var endmonth =endcompleteDate.getMonth()+1;
+    var endyear = endcompleteDate.getFullYear();
+    const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
+    const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
+
+    await this.setState({
+        formattedDatestart:formatdDatestart,
+        formatdDateend: formatdDateend
+    })
     
-        const formatdDate = date + "-" + month + "-" + year;
-        await this.setState({
-          formattedDate:formatdDate
-        })
-    
-    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
+    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-range/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDatestart}/${this.state.formatdDateend}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -88,14 +106,16 @@ class AttendanceTable extends React.Component {
         'Authorization': `Token ${localStorage.getItem('token')}`,
       },
       // mode: 'no-cors',
-    })
+    });
+    console.log(res);
     
     const data = await res.json();
+    console.log(data);
     
 
     if(res.status === 200){
       this.setState({
-        attendance:data.attendance
+        attendance:data
       })
       
       
@@ -112,7 +132,7 @@ class AttendanceTable extends React.Component {
           <Grid container>
 
            
-            <Grid item md={12} lg={8} style={{padding:'25px 50px'}}>
+            <Grid item md={12} lg={7} style={{padding:'25px 50px'}}>
             <CustomizedTable attendance={this.state.attendance} subject={this.props.location.state.name}/>
             </Grid>
             <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
@@ -120,10 +140,13 @@ class AttendanceTable extends React.Component {
 
             </Grid>
             <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
+         
+            <Datepicker endDate={this.state.endDate} handleChange={this.handleChangeEnd} updateChange={this.updateChange}/>
+        </Grid>
+            <Grid item md={12} lg={1} style={{padding:'25px'}}>
             <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
 
             </Grid>
-
           </Grid>
           
            
@@ -133,9 +156,9 @@ class AttendanceTable extends React.Component {
   }
 }
 
-AttendanceTable.propTypes = {
+AttendanceTableRange.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AttendanceTable);
+export default withStyles(styles)(AttendanceTableRange);
 
