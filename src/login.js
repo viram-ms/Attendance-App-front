@@ -148,7 +148,7 @@ class login extends React.Component {
        <Typography component="h1" variant="h5">
          Sign In
        </Typography>
-       <form  autoComplete="off">
+       <form  autoComplete="off"  onSubmit = {this.handle_login}>
         {/* <TextField style={{ maxWidth: 300 }}
           id="name"
           onChange={this.handleChange}
@@ -176,7 +176,7 @@ class login extends React.Component {
            <Input name="password" type="password" id="password" value={this.state.password} onChange={this.handleChange} autoComplete="current-password" />
          </FormControl>
          <Button
-           
+           type="submit"
            fullWidth
            variant="contained"
            color="primary"

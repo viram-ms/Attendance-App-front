@@ -19,7 +19,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import Datepicker from './Datepicker';
 var Save_as = require('file-saver');
 
 //import './style.css'
@@ -49,18 +49,91 @@ const styles = theme => ({
 class Mysubjectcard extends React.Component {
   state = { 
     expanded: false,
-    open: false
+    open: false,
+    openDownload: false,
+    startDate: new Date(),
+    endDate: new Date(),
+    formattedDatestart:'',
+    formatdDateend:''
+
   };
 
+  handleChange = (date) => {
+    this.setState({
+      startDate: date,
+    });
+  }
+  handleChangeEnd = (date) => {
+      console.log(date);
+    this.setState({
+      endDate: date,
+    });
+  }
+
+  Download = (subject, div) => async (event) => {
+    event.preventDefault();
+    var startcompleteDate=this.state.startDate;
+    var startdate=startcompleteDate.getDate();
+    var startmonth =startcompleteDate.getMonth()+1;
+    var startyear = startcompleteDate.getFullYear();
+
+    var endcompleteDate=this.state.endDate;
+    var enddate=endcompleteDate.getDate();
+    var endmonth =endcompleteDate.getMonth()+1;
+    var endyear = endcompleteDate.getFullYear();
+    
+        const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
+        const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
+
+        await this.setState({
+            formattedDatestart:formatdDatestart,
+            formatdDateend: formatdDateend
+        })
+
+    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${this.state.formattedDatestart}/${this.state.formatdDateend}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': `Token ${localStorage.getItem('token')}`,
+          },
+          responseType: 'blob',
+        }).then(res => res.blob())
+        .then(blob => Save_as(blob, 'test.csv'));
+    console.log(res);
+
+        
+      //   const data = await res.json();
+      //   console.log(data);
+      //   if(res.status === 200){
+      //     this.setState({
+      //       attendance:data.attendance
+      //     })          
+      // }
+    
+
+  }
   handleOpen = () =>{
     this.setState({
       open: true
     })
   }
 
+  handleClickDownload =()=>{
+    this.setState({
+      openDownload: true
+    })
+  }
+
   handleClose = () =>{
     this.setState({
       open: false
+    })
+  }
+
+  handleCloseDownload = () =>{
+    this.setState({
+      openDownload: false
     })
   }
   
@@ -72,7 +145,7 @@ class Mysubjectcard extends React.Component {
 
     async handleClick(subject,div){
       //alert("heyyyy");
-    const url = `https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/01-01-2019/01-05-2019`;
+    const url = ``;
     const res1 = await fetch(url,{
       method: 'GET',
       headers: {
@@ -83,6 +156,7 @@ class Mysubjectcard extends React.Component {
     responseType: 'blob',
     }).then(res => res.blob())
     .then(blob => Save_as(blob, 'test.csv'))
+    console.log(res1);
   }
 
   render() {
@@ -107,10 +181,50 @@ class Mysubjectcard extends React.Component {
             </CardContent>
 
             <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button} onClick={this.handleClick.bind(this,subject.name,subject.div)}>
+              <Button variant="contained" color="default" className={classes.button} onClick={this.handleClickDownload}>
+              {/* onClick={this.handleClick.bind(this,subject.name,subject.div)} */}
                 Download
-        <CloudDownloadIcon className={classes.rightIcon} />
+                <CloudDownloadIcon className={classes.rightIcon} />
               </Button>
+
+              <Dialog
+                open={this.state.openDownload}
+                onClose={this.handleCloseDownload}
+                aria-labelledby="form-dialog-title"
+                variant="outlined"
+                style={{padding: 20}}
+                >
+       <div style={{display: 'flex'}}> 
+       <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
+         SELECT Dates
+         
+       </DialogTitle>
+       <Button  onClick={this.handleCloseDownload} color="primary" style={{padding:'10px'}}>
+            close
+          </Button>
+         </div>
+       
+       <DialogActions>
+         <Grid container spacing={24} style={{padding: 10}}>
+           <Grid item xs={12} sm={12} md={4} >
+       <Datepicker startDate={this.state.startDate} handleChange={this.handleChange}  />
+
+           </Grid>
+           <Grid item xs={12} sm={12} md={4}>
+       <Datepicker startDate={this.state.endDate} handleChange={this.handleChangeEnd} />
+
+           </Grid>
+           <Grid item xs={12} sm={12} md={4}>
+           <Button  onClick={this.Download(subject.name,subject.div)} color="primary" variant="contained" style={{padding:'10px'}}>
+            Download
+          </Button>
+           </Grid>
+           </Grid>
+
+       
+         
+        </DialogActions>
+     </Dialog>
               
 
              <Button variant="contained" color="default" className={classes.button} onClick={this.handleOpen}>
@@ -118,10 +232,10 @@ class Mysubjectcard extends React.Component {
               <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button>
               <Dialog
-     open={this.state.open}
-     onClose={this.handleClose}
-     aria-labelledby="form-dialog-title"
-     >
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+                >
        <div style={{display: 'flex'}}> 
        <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
          SELECT VIEWS
@@ -134,12 +248,12 @@ class Mysubjectcard extends React.Component {
        
        <DialogActions>
        <Link to={{
-                pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View single date
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>
               <Link to={{
-                pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View range date
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>

@@ -88,13 +88,16 @@ const styles = theme => ({
 class PersistentDrawerLeft extends React.Component {
   state = {
     open: false,
-    logged_in:''
+    logged_in:'',
+    show: false
   };
 
-  componentDidMount(){
-    this.setState({
-      logged_in: localStorage.getItem('token') ? true : false,
-    })
+  async componentDidMount(){
+    if(localStorage.getItem('token')){
+      this.setState({
+        show: true
+      })
+    }
   }
 
   handleDrawerOpen = () => {
@@ -108,7 +111,8 @@ class PersistentDrawerLeft extends React.Component {
   handleLogout = () =>{
     localStorage.removeItem("token");
     this.setState({
-      logged_in:false
+      logged_in:false,
+      show: false
     })
   }
 
@@ -137,86 +141,14 @@ class PersistentDrawerLeft extends React.Component {
             <Typography variant="h6" color="inherit" noWrap style={{flexGrow:1}}>
               Attendance Web
             </Typography>
-            <Link to="/" style={{textDecoration:'none',color:'white'}}><Typography onClick={this.handleLogout} variant="h6" color="inherit" style={{marginRight:10}} >Logout</Typography></Link>
+            {this.state.show && <Link to="/" style={{textDecoration:'none',color:'white'}}>
+              <Typography onClick={this.handleLogout} variant="h6" color="inherit" style={{marginRight:10}} >
+                Logout
+                </Typography>
+                </Link>}
           </Toolbar>
         </AppBar>
-        {/* <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-
-            <ListItem className={classes.listStyle} >
-              <Link to="/" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Login</Typography></ListItemText></Link>              
-            </ListItem>           
-          </List>
-          <Divider />
-          <List>
-
-            <ListItem className={classes.listStyle} >
-              <Link to="/Teacher" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Teacher</Typography></ListItemText></Link>              
-            </ListItem>           
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/Student" style={{ textDecoration: 'none' }}><ListItemText><Typography variant="subtitle1">Student</Typography></ListItemText></Link>
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/Subject" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Subject</Typography></ListItemText></Link>
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/AttendanceTable" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">AttendanceTable</Typography></ListItemText></Link> 
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/teachermain" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Teacher Tabs</Typography></ListItemText></Link> 
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/attendfordate" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">attend For Date</Typography></ListItemText></Link> 
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/StudentAttend" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Student Attendance</Typography></ListItemText></Link> 
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem className={classes.listStyle}>
-            <Link to="/EditPage" style={{ textDecoration: 'none' }}> <ListItemText><Typography variant="subtitle1">Edit Details</Typography></ListItemText></Link> 
-            </ListItem>
-          </List>
-          <Divider />
-
-         
-
-
-
-        </Drawer> */}
+       
         <main
           className={classNames(classes.content, {
             [classes.contentShift]: open,

@@ -51,7 +51,7 @@ class Datepicker extends React.Component {
   
  
   render() {
-    const{ classes,handleChange,updateChange,startDate }= this.props
+    const{ classes,handleChange,startDate }= this.props
     return (
       <div className={classes.root} >
         {/* <DatePicker

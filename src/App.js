@@ -21,6 +21,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
 import EditPage from './EditPage';
+import {ProtectedRoute} from './ProtectRoute';
 
 const theme = createMuiTheme({
   palette: {
@@ -42,19 +43,19 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={login} />
 
-        <Route exact path="/student" component={Student} />
-        <Route exact path="/teacher" component={Teacher} />
-        <Route exact path="/subject" component={Subject} />
-        <Route exact path="/attendanceTable/:div" component={AttendanceTable} />
-        <Route exact path="/attendanceTable/range/:div" component={AttendanceTableRange} />
+        <ProtectedRoute exact path="/student" component={Student} />
+        <ProtectedRoute exact path="/teacher" component={Teacher} />
+        <ProtectedRoute exact path="/subject" component={Subject} />
+        <ProtectedRoute exact path="/attendanceTable/:div" component={AttendanceTable} />
+        <ProtectedRoute exact path="/attendanceTable/range/:div" component={AttendanceTableRange} />
 
-        <Route exact path="/editTable/:div" component={EditPage} />
+        <ProtectedRoute exact path="/editTable/:div" component={EditPage} />
 
         {/* <Route exact path="/student/:id" component={AttendanceStudent} /> */}
-        <Route exact path="/teachermain" component={Teachermain} />
-        <Route exact path="/attendfordate" component={AttendForDate} />
-        <Route exact path="/Student/:id" component={StudentAttend} />
-        <Route exact path="/EditPage" component={EditPage} />
+        <ProtectedRoute exact path="/teachermain" component={Teachermain} />
+        <ProtectedRoute exact path="/attendfordate" component={AttendForDate} />
+        <ProtectedRoute exact path="/Student/:id" component={StudentAttend} />
+        <ProtectedRoute exact path="/EditPage" component={EditPage} />
       </Switch>
       </div>
       </Router>     
