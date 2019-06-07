@@ -33,6 +33,7 @@ class AttendanceTableRange extends React.Component {
     });
   }
   handleChangeEnd = (date) => {
+      console.log(date);
     this.setState({
       endDate: date,
     });
@@ -141,7 +142,7 @@ class AttendanceTableRange extends React.Component {
             </Grid>
             <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
          
-            <Datepicker endDate={this.state.endDate} handleChange={this.handleChangeEnd} updateChange={this.updateChange}/>
+            <Datepicker startDate={this.state.endDate} handleChange={this.handleChangeEnd} updateChange={this.updateChange}/>
         </Grid>
             <Grid item md={12} lg={1} style={{padding:'25px'}}>
             <Button variant="outlined" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
