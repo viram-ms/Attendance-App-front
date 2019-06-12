@@ -15,7 +15,20 @@ import { CsvDownload } from 'react-json-to-csv';
 var Save_as = require('file-saver');
 
 const styles = theme => ({ 
-
+  spacing : {
+    padding:'25px 50px',
+    [theme.breakpoints.down("sm")]: {
+      padding: 10,
+      margin: 'auto'
+    }
+  },
+  smallSpacing: {
+    padding:'25px',
+    [theme.breakpoints.down("sm")]: {
+      padding: 10,
+      margin: 'auto'
+    }
+  }
 })
  
 class AttendanceTableRange extends React.Component {
@@ -133,18 +146,18 @@ class AttendanceTableRange extends React.Component {
           <Grid container>
 
            
-            <Grid item md={12} lg={7} style={{padding:'25px 50px'}}>
+            <Grid item  xs={12} sm={12} md={12} lg={7} className={classes.spacing}>
             <CustomizedTable attendance={this.state.attendance} subject={this.props.location.state.name}/>
             </Grid>
-            <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
+            <Grid item  xs={12} sm={12} md={12} lg={2} className={classes.spacing}>
             <Datepicker startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
 
             </Grid>
-            <Grid item md={12} lg={2} style={{padding:'25px 50px'}}>
+            <Grid item  xs={12} sm={12} md={12} lg={2} className={classes.spacing}>
          
             <Datepicker startDate={this.state.endDate} handleChange={this.handleChangeEnd} updateChange={this.updateChange}/>
         </Grid>
-            <Grid item md={12} lg={1} style={{padding:'25px'}}>
+            <Grid item xs={12} sm={12} md={12} lg={1} className={classes.smallSpacing}>
             <Button variant="contained" color="primary" onClick={this.updateChange} className={classes.button}> Submit</Button>
 
             </Grid>

@@ -1,8 +1,7 @@
 import React from 'react';
-//import Myclasscard from './Components/Myclasscard';
 import Ttab from './Components/Ttab';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
-
+import Grid from '@material-ui/core/Grid';
 class Teachermain extends React.Component{
 
     state = {
@@ -11,13 +10,6 @@ class Teachermain extends React.Component{
         taught_subjects:[]
     }
     async componentDidMount(){
-       
-        // this.setState({
-        //     class_subjects:this.props.location.state.class_subjects,
-        //     division_they_are_class_teacher_of:this.props.location.state.division_they_are_class_teacher_of,
-        //     taught_subjects:this.props.location.state.taught_subjects
-        // });
-
         const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/dashboard-teacher/${this.props.location.state}`, {
             method: 'GET',
             headers: {
@@ -25,13 +17,9 @@ class Teachermain extends React.Component{
               'X-Requested-With': 'XMLHttpRequest',
               'Authorization': `Token ${localStorage.getItem('token')}`,
             },
-            // mode: 'no-cors',
           })
           
           const data = await res.json();
-          
-         
-      
           if(res.status === 200){
             const class_subjects = data.class_subjects;
             const taught_subjects = data.taught_subjects;
@@ -47,17 +35,14 @@ class Teachermain extends React.Component{
           }
     }
     render(){
-        
-      
-        
-
         return(
         <div>
-               <PersistentDrawerLeft  />
-
-
+            <PersistentDrawerLeft  />
+            <Grid container>
+              <Grid item xs={12} sm={12} md={12} >
             <Ttab data={this.state}/>
-            {/* <Myclasscard /> */}
+              </Grid>
+              </Grid>
             </div>
         );
     }

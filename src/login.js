@@ -1,7 +1,6 @@
 import React from 'react';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -50,10 +49,6 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
-   //  backgroundColor:'#25aae1',
-   //  '&:hover': {
-   //   backgroundColor:"#25aae1",
-   // },
   },
 });
 
@@ -66,32 +61,15 @@ class login extends React.Component {
     password:'',
     teacherId:'',
     open: false,
-   
-
   };
-
   handleClose = () => {
     this.setState({ open: false });
   };
-
-
   componentDidMount() {
-    // if (this.state.logged_in) {
-    //   fetch('http://localhost:8000/login', {
-    //     headers: {
-    //       Authorization: `JWT ${localStorage.getItem('token')}`
-    //     }
-    //   })
-    //     .then(res => res.json())
-    //     .then(json => {
-    //       this.setState({ teacherId: json.teacherId });
-    //     });
-    // }
   }
 
    handle_login = async (e) => {
-     e.preventDefault();
-   
+    e.preventDefault();
    const res=await fetch('https://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
       method: 'POST',
       headers: {
@@ -104,26 +82,18 @@ class login extends React.Component {
         password: this.state.password,
       })
     })
-    
     if(res.status === 500){
-      
       this.setState({
         open:true
       })
     }
-
     const data = await res.json();
-    
-
     if(res.status === 200){
       localStorage.setItem('token',data.token);
       this.setState({
         logged_in:true,
       });
-      
     }
-     
-   
   };
 
   handle_logout = () => {
@@ -149,24 +119,6 @@ class login extends React.Component {
          Sign In
        </Typography>
        <form  autoComplete="off"  onSubmit = {this.handle_login}>
-        {/* <TextField style={{ maxWidth: 300 }}
-          id="name"
-          onChange={this.handleChange}
-          label="Name"
-          type="text"
-          name="teacherId"
-          margin="normal"
-          
-        />
-        <TextField style={{ maxWidth: 300 }}
-          id="password"
-          label="Password"
-          onChange={this.handleChange}
-          type="password"
-          name="password"
-          margin="normal"
-          
-        /> */}
         <FormControl margin="normal" required fullWidth>
            <InputLabel htmlFor="email">Teacher Id</InputLabel>
            <Input id="name" name="teacherId" autoComplete="email" autoFocus value={this.state.name} onChange={this.handleChange}/>
@@ -186,8 +138,7 @@ class login extends React.Component {
            Sign In
          </Button>
         </form>
-        <Typography variant="h6" style={{marginTop:10}}>Don't have an account? <Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
-
+        <Typography variant="h6" style={{marginTop:10, textAlign:'center'}}>Don't have an account? <br /><Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
         </Paper>
         {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId,logged_in:this.state.logged_in}} />}
         <Dialog

@@ -33,7 +33,7 @@ const styles = theme => ({
    
   },
   table: {
-  minWidth:400,
+  minWidth:350,
   
    
   },

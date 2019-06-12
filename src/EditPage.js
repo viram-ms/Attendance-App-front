@@ -32,7 +32,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 400,
+    minWidth: 300,
     
   },
   row: {
@@ -46,9 +46,7 @@ const styles = theme => ({
   green: {
     color: 'green',
   },
-  attendTable:{
-    padding:10
-  }
+ 
  
 });
 
@@ -111,18 +109,13 @@ class EditPage extends React.Component {
        
         // mode: 'no-cors',
       })
-      
       const data = await res.json();
-      
-  
       if(res){
-        
         this.setState({
           message:data.success_message
         })
       if(res.status === 200){
         alert("Attendance Edited");
-  
     }
     }
   }
@@ -166,12 +159,10 @@ class EditPage extends React.Component {
         var date=completeDate.getDate();
         var month =completeDate.getMonth()+1;
         var year = completeDate.getFullYear();
-        
             const formattedDate = date + "-" + month + "-" + year;
             await this.setState({
               formattedDate
             });
-    
             const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
               method: 'GET',
               headers: {
@@ -181,14 +172,8 @@ class EditPage extends React.Component {
               },
               // mode: 'no-cors',
             })
-            
             const data = await res.json();
-            
-        
             if(res.status === 200){
-             
-              
-              
               this.setState({
                 attendance:data.attendance
               })
@@ -239,14 +224,14 @@ class EditPage extends React.Component {
         <div>
             <PersistentDrawerLeft />
             <Grid container className={classes.table}>
- <Grid item xs={12}>{(attendance.length == 0) && <Typography variant="h6" style={{margin:10}}>No lecture today</Typography>}</Grid>
+            <Grid item xs={12}>{(attendance.length == 0) && <Typography variant="h6" style={{margin:10}}>No lecture today</Typography>}</Grid>
             {/* <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid> */}
             </Grid>
-            <Grid container className={classes.table}>
+            <Grid container spacing={24} style={{padding: 12}}>
             
-            <Grid item xs={8} className={classes.attendTable}> 
+            <Grid item xs={12} sm={12} md={7} className={classes.attendTable}> 
                 <Paper>
-                <Table>
+                <Table >
                     <TableHead>
                     <TableRow>
                         <CustomTableCell>SAP ID</CustomTableCell>
@@ -279,12 +264,15 @@ class EditPage extends React.Component {
                 </Table>
                 </Paper>
             </Grid>
-            <Grid item xs={4} >
+            <Grid item xs={12} sm={12} md={2}>
             <Datepicker  startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
             </Grid>
-            </Grid>
-            <Button variant="contained" onClick={this.handleSubmit} color="primary" style={{margin:10}}>Post Change</Button>
-            {message.length > 0 && <Typography variant="h6" style={{margin:10}}>{message}</Typography>}
+            
+            <Grid item xs={12} sm={12} md={2}>
+            <Button variant="contained" onClick={this.handleSubmit} color="primary" >Post Change</Button>
+              </Grid>
+              </Grid>
+            {message.length > 0 && <Typography variant="h6" style={{margin:20}}>{message}</Typography>}
         </div>
         );
     }

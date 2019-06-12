@@ -11,7 +11,7 @@ import Mysubjectcard from './Mysubjectcard';
 
 function TabContainer({ children, dir }) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{ padding: 5 * 3 }}>
       {children}
     </Typography>
   );
@@ -25,7 +25,7 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    minWidth: 400,
+    minWidth: 300,
     maxWidth:1100,
     margin:'auto'
   },
@@ -60,8 +60,8 @@ class Ttab extends React.Component {
             textColor="primary"
             variant="fullWidth"
           >
-            <Tab label="MY SUBJECT" style={{fontFamily:'Arial',fontSize:18,color:'black'}} />
-            <Tab label="MY CLASS" style={{fontFamily:'Arial', fontSize:18,color:'black'}} />
+            <Tab label="My Subject" style={{fontFamily:'Arial',fontSize:18,color:'black'}} />
+            <Tab label="My Class" style={{fontFamily:'Arial', fontSize:18,color:'black'}} />
           </Tabs>
         </AppBar>
         <SwipeableViews

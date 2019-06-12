@@ -28,6 +28,7 @@ const styles = theme => ({
 
   card: {
     height: 225,
+   
 
   },
   content: {
@@ -161,12 +162,7 @@ class Mysubjectcard extends React.Component {
 
   render() {
     const { classes } = this.props;
-
-  
-    
-
     return (
-
       <div>
       <Grid container spacing={16}>
       {this.props.taught_subjects.map((subject) => {
