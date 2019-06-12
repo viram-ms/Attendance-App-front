@@ -229,7 +229,7 @@ class EditPage extends React.Component {
             </Grid>
             <Grid container spacing={24} style={{padding: 12}}>
             
-            <Grid item xs={12} sm={12} md={7} className={classes.attendTable}> 
+            <Grid item xs={12} sm={12} md={6} className={classes.attendTable}> 
                 <Paper>
                 <Table >
                     <TableHead>
@@ -267,7 +267,9 @@ class EditPage extends React.Component {
             <Grid item xs={12} sm={12} md={2}>
             <Datepicker  startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
             </Grid>
-            
+            <Grid item xs={12} sm={12} md={2}>
+            <Button variant="contained" onClick={this.updateChange} color="primary" >Submit</Button>
+              </Grid>
             <Grid item xs={12} sm={12} md={2}>
             <Button variant="contained" onClick={this.handleSubmit} color="primary" >Post Change</Button>
               </Grid>
