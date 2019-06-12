@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Attendance-front/precache-manifest.994d0e9affb58bf15464c1b9666ff895.js"
+  "/Attendance-front/precache-manifest.f93923f1cadb77068bfc295532082dc1.js"
 );
 
 workbox.clientsClaim();

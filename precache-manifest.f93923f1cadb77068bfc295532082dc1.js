@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/Attendance-front/static/css/1.015ec344.chunk.css"
   },
   {
-    "revision": "6fa0fba906cfb05aa7b943fedd8d12de",
+    "revision": "26a8bd6e5addef5325fdf5757be9111d",
     "url": "/Attendance-front/index.html"
   }
 ];
