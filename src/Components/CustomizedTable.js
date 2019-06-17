@@ -23,19 +23,15 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = theme => ({
   root: {
-   
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     margin:'auto',
     ['@media (max-width:780px)']: { // eslint-disable-line no-useless-computed-key
         width: '100%!important'
       }
-   
   },
   table: {
-  minWidth:350,
-  
-   
+  minWidth:350, 
   },
   row: {
     '&:nth-of-type(odd)': {
