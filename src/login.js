@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
@@ -16,10 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
-
-
+import {usePostHttp} from './hooks/posthttp';
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -52,110 +49,94 @@ const styles = theme => ({
   },
 });
 
-class login extends React.Component {
+const login = props =>{
 
-  state = {
-    age: '',
-    logged_in:false,
-    username: '',
-    password:'',
-    teacherId:'',
-    open: false,
+  // const [username,setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [teacherId, setTeacherId] = useState('');
+  const body = JSON.stringify({
+    teacherId: teacherId,
+    password: password,
+  });
+
+  const {logged_in,open,fetchCall,closeBox,logout} = usePostHttp();
+
+   const handle_login = async (e) => {
+    e.preventDefault();
+    const body = JSON.stringify({
+      teacherId: teacherId,
+      password: password,
+    });
+    
+    fetchCall('https://wizdem.pythonanywhere.com/Attendance/login-teacher/',body);
   };
-  handleClose = () => {
-    this.setState({ open: false });
+
+  const handleClose = () => {
+    closeBox();
   };
-  componentDidMount() {
+
+  const handle_logout = () => {
+    logout();
+    setTeacherId('');
+  };
+
+  
+  const handleChangeTeacherId = event => {
+    // this.setState({ [event.target.name]: event.target.value });
+    setTeacherId(event.target.value);
+  };
+
+  const handleChangePassword = event =>{
+    setPassword(event.target.value);
   }
 
-   handle_login = async (e) => {
-    e.preventDefault();
-   const res=await fetch('https://wizdem.pythonanywhere.com/Attendance/login-teacher/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      // mode: 'no-cors',
-      body: JSON.stringify({
-        teacherId: this.state.teacherId,
-        password: this.state.password,
-      })
-    })
-    if(res.status === 500){
-      this.setState({
-        open:true
-      })
-    }
-    const data = await res.json();
-    if(res.status === 200){
-      localStorage.setItem('token',data.token);
-      this.setState({
-        logged_in:true,
-      });
-    }
-  };
-
-  handle_logout = () => {
-    localStorage.removeItem('token');
-    this.setState({ logged_in: false, teacherId: '' });
-  };
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-    
-  };
-  render() {
-    const { classes } = this.props;
+    const { classes } = props;
     return (
       <div className={classes.main} >
         <PersistentDrawerLeft />
-        <Paper className={classes.paper}>
-        
-        <Avatar className={classes.avatar}>
-         <LockOutlinedIcon />
-       </Avatar>
-       <Typography component="h1" variant="h5">
-         Sign In
-       </Typography>
-       <form  autoComplete="off"  onSubmit = {this.handle_login}>
-        <FormControl margin="normal" required fullWidth>
-           <InputLabel htmlFor="email">Teacher Id</InputLabel>
-           <Input id="name" name="teacherId" autoComplete="email" autoFocus value={this.state.name} onChange={this.handleChange}/>
-         </FormControl>
-         <FormControl margin="normal" required fullWidth>
-           <InputLabel htmlFor="password">Password</InputLabel>
-           <Input name="password" type="password" id="password" value={this.state.password} onChange={this.handleChange} autoComplete="current-password" />
-         </FormControl>
-         <Button
-           type="submit"
-           fullWidth
-           variant="contained"
-           color="primary"
-           className={classes.submit}
-           onClick={this.handle_login}
-         >
-           Sign In
-         </Button>
-        </form>
-        <Typography variant="h6" style={{marginTop:10, textAlign:'center'}}>Don't have an account? <br /><Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign In
+            </Typography>
+            <form  autoComplete="off"  onSubmit = {handle_login}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Teacher Id</InputLabel>
+                <Input id="name" name="teacherId" autoComplete="email" autoFocus value={teacherId} onChange={e => setTeacherId(e.target.value)}/>
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input name="password" type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" />
+              </FormControl>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handle_login}
+              >
+                Sign In
+              </Button>
+            </form>
+          <Typography variant="h6" style={{marginTop:10, textAlign:'center'}}>Don't have an account? <br /><Link to="/teacher" style={{textDecoration:'none'}}>Sign Up</Link></Typography>
         </Paper>
-        {this.state.logged_in && <Redirect to={{pathname:'/teachermain',state:this.state.teacherId,logged_in:this.state.logged_in}} />}
+        {logged_in && <Redirect to={{pathname:'/teachermain',state:teacherId,logged_in:logged_in}} />}
         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={open}
+          onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-         
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Incorrect Teacher ID and Password. Please Try Again.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            
-            <Button onClick={this.handleClose} color="primary" autoFocus>
+            <Button onClick={handleClose} color="primary" autoFocus>
               Ok
             </Button>
           </DialogActions>
@@ -163,7 +144,7 @@ class login extends React.Component {
       </div>
     );
   }
-}
+
 login.propTypes = {
   classes: PropTypes.object.isRequired,
 };

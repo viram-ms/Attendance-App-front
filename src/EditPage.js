@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,6 +12,8 @@ import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
 import Checkbox from '@material-ui/core/Checkbox';
 import Datepicker from './Components/Datepicker';
 import Button from '@material-ui/core/Button';
+import {useHttp} from './hooks/http';
+import {useEditHttp} from './hooks/editHttp';
 
 
 const CustomTableCell = withStyles(theme => ({
@@ -45,219 +47,108 @@ const styles = theme => ({
   },
   green: {
     color: 'green',
-  },
- 
- 
+  }, 
 });
 
-let id = 0;
-function createData(Sap_id,Name,p_a){
-  id += 1;
-  return { Sap_id, Name,p_a };
-}
+const EditPage = props => {
 
-const rows = [
-  createData('60004170103', 'Shail Shah',1),
-  createData('60004170122', 'Viram Shah',0),
-  createData('60004170084', 'Priya Shah',1),
-  createData('60004170073', 'Nirav Jain',0),
-  createData('60004170083', 'Preet Soni',1),
-];
+    const [startDate,setStartDate] = useState(new Date());
+    const [formattedDate, setFormattedDate] = useState('');
+    const [attendance_list, setAttendance_list] = useState([]);
 
-class EditPage extends React.Component {
+    useEffect(()=>{
+      console.log('use effect is running');
+      var completeDate=startDate;
+      console.log(completeDate);
+      var newdate=completeDate.getDate();
+      var month =completeDate.getMonth()+1;
+      var year = completeDate.getFullYear();
+      const formatdDate = newdate + "-" + month + "-" + year;
+      setFormattedDate(formatdDate);
+    });
 
-    state = {
-      message:'',
-      startDate: new Date(),
-    formattedDate:'',
-      check: true,
-      uncheck: false,
-      students:[
-        {Sap_id: "60004170103", Name: "Shail Shah", p_a: 1},
-        {Sap_id: "60004170122", Name: "Viram Shah", p_a: 0},
-        {Sap_id: "60004170084", Name: "Priya Shah", p_a: 1}
-      ],
-      attendance:[],
-      attendance_list:[]
-    }
+    const [fetchedData] = useHttp(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${props.location.state.name}/${props.location.state.div}/${formattedDate}`,[formattedDate]);
+    const fetchedAttenndance = fetchedData ? fetchedData.attendance : [];
+    console.log(fetchedAttenndance);
 
-    handleSubmit = async (event) =>{
+    const [message, fetchCall] = useEditHttp();
+
+
+    const handleSubmit = async (event) =>{
       event.preventDefault();
-      
-      var completeDate=this.state.startDate;
+      var completeDate=startDate;
       var date=completeDate.getDate();
       var month =completeDate.getMonth()+1;
       var year = completeDate.getFullYear();
-      
-          const formatdDate = date + "-" + month + "-" + year;
-          await this.setState({
-            formattedDate:formatdDate
-          })
-
-          let postData = {attendance_list:[{time:this.state.attendance[0].time,attendance_list:this.state.attendance_list}]}
-          const formData = new FormData();
-          formData.append('attendance',JSON.stringify(postData));
-          // formData.append('viram','viram');
-      const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/edit-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          'Authorization': `Token ${localStorage.getItem('token')}`,
-        },
-        body:JSON.stringify(postData)
-       
-        // mode: 'no-cors',
-      })
-      const data = await res.json();
-      if(res){
-        this.setState({
-          message:data.success_message
-        })
-      if(res.status === 200){
-        alert("Attendance Edited");
+      const formatdDate = date + "-" + month + "-" + year;
+      setFormattedDate(formatdDate);
+      let postData = {attendance_list:[{time:fetchedAttenndance[0].time,attendance_list:attendance_list}]}
+      fetchCall(`https://wizdem.pythonanywhere.com/Attendance/edit-attendance-of-day/${props.location.state.name}/${props.location.state.div}/${formattedDate}`,JSON.stringify(postData));
     }
-    }
-  }
 
-   
-    
-    handleChangeCheck = (Sap_id,id) => event => {
-      let studentsCopy = this.state.attendance[0].attendance_list;
-      if(studentsCopy[id].attendance == 1){
-        
-
-        studentsCopy[id] = {...studentsCopy[id],attendance:0}
-        this.setState({
-          attendance_list:studentsCopy
-        })
-
+    const handleChangeCheck = (id) => {
+      console.log(id.id);
+     let studentsCopy = fetchedAttenndance[0].attendance_list;
+      if(studentsCopy[id.id].attendance == 1){
+        studentsCopy[id.id] = {...studentsCopy[id.id],attendance:0}
+        setAttendance_list(studentsCopy);
       }
       else{
-        studentsCopy[id] = {...studentsCopy[id],attendance:1}
-        this.setState({
-          attendance_list:studentsCopy
-        })
-      }
-        
-        
-      }
-      handleChange = (date) => {
-        this.setState({
-          startDate: date,
-         
-        });
-      }
-  
-    
-      updateChange = async (event) => {
-        event.preventDefault();
-        var completeDate=this.state.startDate;
-        this.setState({
-          message:''
-        })
-        var date=completeDate.getDate();
-        var month =completeDate.getMonth()+1;
-        var year = completeDate.getFullYear();
-            const formattedDate = date + "-" + month + "-" + year;
-            await this.setState({
-              formattedDate
-            });
-            const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'Authorization': `Token ${localStorage.getItem('token')}`,
-              },
-              // mode: 'no-cors',
-            })
-            const data = await res.json();
-            if(res.status === 200){
-              this.setState({
-                attendance:data.attendance
-              })
-        
-          }
-        }
-    
-      async componentDidMount(){
-        
-        var completeDate=this.state.startDate;
-        var date=completeDate.getDate();
-        var month =completeDate.getMonth()+1;
-        var year = completeDate.getFullYear();
-        
-            const formatdDate = date + "-" + month + "-" + year;
-            await this.setState({
-              formattedDate:formatdDate
-            })
-        
-        const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-day/${this.props.location.state.name}/${this.props.location.state.div}/${this.state.formattedDate}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Authorization': `Token ${localStorage.getItem('token')}`,
-          },
-         
-          // mode: 'no-cors',
-        })
-        
-        const data = await res.json();
-        
-    
-        if(res.status === 200){
-          this.setState({
-            attendance:data
-          })
-    
+        studentsCopy[id.id] = {...studentsCopy[id.id],attendance:1}
+        setAttendance_list(studentsCopy);
       }
     }
+      
+    const handleChange = (date) => {
+      setStartDate(date);
+      console.log(startDate);
+    }
   
-    render(){
-        const { classes } = this.props;
-        const {attendance,message} = this.state;
-    
-
-        return (
+    const updateChange = () => {
+      console.log(startDate);
+      var completeDate=startDate;
+      console.log(completeDate);
+      var newdate=completeDate.getDate();
+      var month =completeDate.getMonth()+1;
+      var year = completeDate.getFullYear();
+      const formatdDate = newdate + "-" + month + "-" + year;
+      setFormattedDate(formatdDate);
+      console.log(formatdDate);
+      console.log(formattedDate);
+    }
+    const { classes } = props;
+    return (
         <div>
             <PersistentDrawerLeft />
             <Grid container className={classes.table}>
-            <Grid item xs={12}>{(attendance.length == 0) && <Typography variant="h6" style={{margin:10}}>No lecture today</Typography>}</Grid>
-            {/* <Grid item xs={12}><Typography align='center' component="h2" variant="display3">Attendance for Date:</Typography></Grid> */}
-            </Grid>
+              <Grid item xs={12}>{(fetchedAttenndance.length == 0) && <Typography variant="h6" style={{margin:10}}>No lecture today</Typography>}</Grid>
+              </Grid>
             <Grid container spacing={24} style={{padding: 12}}>
             
-            <Grid item xs={12} sm={12} md={6} className={classes.attendTable}> 
+            <Grid item xs={12} sm={12} md={8} className={classes.attendTable}> 
                 <Paper>
                 <Table >
                     <TableHead>
-                    <TableRow>
-                        <CustomTableCell>SAP ID</CustomTableCell>
-                        <CustomTableCell>Name</CustomTableCell>
-                        {/* <CustomTableCell>Present/Absent</CustomTableCell> */}
-                        <CustomTableCell>Edit</CustomTableCell>
-                    </TableRow>
+                      <TableRow>
+                          <CustomTableCell>SAP ID</CustomTableCell>
+                          <CustomTableCell>Name</CustomTableCell>
+                          <CustomTableCell>Edit</CustomTableCell>
+                      </TableRow>
                     </TableHead>
                     <TableBody>
-                    { attendance.length>0 && attendance[0].attendance_list.map((row,id) => (
+                    { fetchedAttenndance.length>0 && fetchedAttenndance[0].attendance_list.map((row,id) => (
                         <TableRow className={classes.row} key={row.id}>
-                        <CustomTableCell component="th" scope="row">
-                            {row.sapID}
-                        </CustomTableCell>
-                        <CustomTableCell>{row.name}</CustomTableCell>
-                        {/* {
-                            row.p_a.toLowerCase() == "present" ? <CustomTableCell className={classes.green}>{row.attendance}</CustomTableCell> : <CustomTableCell className={classes.red}>{row.p_a}</CustomTableCell>
-                        } */}
-                        <CustomTableCell component="th" scope="row">
-                            <Checkbox
-                            
-                            checked={row.attendance == "1" ? true : false}
-                            onChange={this.handleChangeCheck(row.Sap_id,id)}
-                            value={row.Sap_id}
-                            />
-                        </CustomTableCell>
+                          <CustomTableCell component="th" scope="row">
+                              {row.sapID}
+                          </CustomTableCell>
+                          <CustomTableCell>{row.name}</CustomTableCell>
+                          <CustomTableCell component="th" scope="row">
+                              <Checkbox
+                              checked={row.attendance == "1" ? true : false}
+                              onChange={handleChangeCheck.bind(this,{id})}
+                              value={row.Sap_id}
+                              />
+                          </CustomTableCell>
                         </TableRow>
                     ))}
                     </TableBody>
@@ -265,20 +156,17 @@ class EditPage extends React.Component {
                 </Paper>
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
-            <Datepicker  startDate={this.state.startDate} handleChange={this.handleChange} updateChange={this.updateChange}/>
+              <Datepicker  startDate={startDate} handleChange={handleChange} updateChange={updateChange}/>
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
-            <Button variant="contained" onClick={this.updateChange} color="primary" >Submit</Button>
-              </Grid>
-            <Grid item xs={12} sm={12} md={2}>
-            <Button variant="contained" onClick={this.handleSubmit} color="primary" >Post Change</Button>
-              </Grid>
+              <Button variant="contained" onClick={handleSubmit} color="primary" >Post Change</Button>
+            </Grid>
               </Grid>
             {message.length > 0 && <Typography variant="h6" style={{margin:20}}>{message}</Typography>}
         </div>
         );
     }
-}
+
 
 EditPage.propTypes = {
   classes: PropTypes.object.isRequired,

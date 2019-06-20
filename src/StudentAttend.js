@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,6 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import { Paper, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import PersistentDrawerLeft from './Components/PersistentDrawerLeft';
+import {useHttp} from './hooks/http';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -46,61 +49,26 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(date,Name,p_a){
-    id += 1;
-  return { date, Name, p_a };
-}
 
-const rows = [
-  createData('22/1/2019', 'Shail Shah', 'Present'),
-  createData('21/1/2019', 'Shail Shah', 'Present'),
-  createData('20/1/2019', 'Shail Shah', 'Present'),
-  createData('19/1/2019', 'Shail Shah', 'Absent'),
-  createData('18/1/2019', 'Shail Shah', 'Absent'),
-];
+const StudentAttend = (props)=> {
 
-class StudentAttend extends React.Component {
+  let selectedData = null;
 
-  state ={
-    attendance:[],
-    attendance_count:'',
-    attendance_percentage:'',
-    attendance_total:''
+  const [fetchedData] = useHttp(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-student/${props.location.subject}/${props.location.sapID}`,[]);
+  if(fetchedData){
+    selectedData={
+      attendance:fetchedData.attendance,
+      attendance_count:fetchedData.attendance_count,
+      attendance_total:fetchedData.attendance_total,
+      attendance_percentage:fetchedData.attendance_percentage
+    }
   }
 
-  async componentDidMount(){
-    const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get-attendance-of-student/${this.props.location.subject}/${this.props.location.sapID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-      },
-      // mode: 'no-cors',
-    })
-    
-    const data = await res.json();
-    
-
-    if(res.status === 200){
-      this.setState({
-        attendance:data.attendance,
-        attendance_count:data.attendance_count,
-        attendance_total:data.attendance_total,
-        attendance_percentage:data.attendance_percentage
-      })
-     
-      
-      
-
-  }
-  }
-  render(){
-    const { classes } = this.props;
-    const {attendance,attendance_count,attendance_percentage,attendance_total} = this.state;
-    
-
+ 
+  
+  
+    const { classes } = props;
+    if(selectedData){
     return (
       <div>
         <PersistentDrawerLeft />
@@ -110,15 +78,12 @@ class StudentAttend extends React.Component {
           <Grid item xs={8}>
           <Paper style={{padding: 20}}>
             <Grid container className={classes.table}>
-              
-              <Grid item xs={6}><Typography align='center' variant="h5">Sap ID: {this.props.location.sapID}</Typography></Grid>
+              <Grid item xs={6}><Typography align='center' variant="h5">Sap ID: {props.location.sapID}</Typography></Grid>
               <Grid item xs={6} align='center' style={{textAlign: "justify"}}>
-              <Typography variant="h6">Attendance count : {attendance_count}</Typography>
-              <Typography variant="h6">Attendance percentage : {attendance_percentage}</Typography>
-              <Typography variant="h6">Attendance total : {attendance_total}</Typography>
+              <Typography variant="h6">Attendance count : {selectedData.attendance_count}</Typography>
+              <Typography variant="h6">Attendance percentage : {selectedData.attendance_percentage}</Typography>
+              <Typography variant="h6">Attendance total : {selectedData.attendance_total}</Typography>
               </Grid>
-              
-             
             </Grid>
             </Paper>
               <Grid item xs={12} sm={12}>
@@ -133,7 +98,7 @@ class StudentAttend extends React.Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {attendance.map(row => (
+                      {selectedData.attendance.map(row => (
                         <TableRow className={classes.row} key={row.id}>
                           <CustomTableCell component="th" scope="row">
                             {row.date}
@@ -155,11 +120,16 @@ class StudentAttend extends React.Component {
             <Grid item xs={2}>
             </Grid>
           </Grid>
-         
-
-
       </div>
     );
+  }
+  else{
+    return(
+      <div>
+          <PersistentDrawerLeft  />
+          <LinearProgress style={{marginTop: '-44px'}} color="secondary"/>
+        </div>
+    )
   }
 }
 

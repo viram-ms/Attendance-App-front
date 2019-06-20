@@ -1,28 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import { Grid, Button, CardContent } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CreateIcon from '@material-ui/icons/Create';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import {Link,Redirect} from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Datepicker from './Datepicker';
-
-var Save_as = require('file-saver');
-
-
-//import './style.css'
+import { useDownloadHttp } from '../hooks/downloadHttp';
 
 const styles = theme => ({
 
@@ -46,119 +37,64 @@ const styles = theme => ({
 
 });
 
-class Myclasscard extends React.Component {
-    
-    state = { expanded: false, open: false,openDownload: false,
-      startDate: new Date(),
-      endDate: new Date(),
-      formattedDatestart:'',
-      formatdDateend:''};
-    handleChange = (date) => {
-      this.setState({
-        startDate: date,
-      });
-    }
-    handleChangeEnd = (date) => {
-        console.log(date);
-      this.setState({
-        endDate: date,
-      });
-    }
-  
-    Download = (subject, div) => async (event) => {
-      event.preventDefault();
-      var startcompleteDate=this.state.startDate;
-      var startdate=startcompleteDate.getDate();
-      var startmonth =startcompleteDate.getMonth()+1;
-      var startyear = startcompleteDate.getFullYear();
-  
-      var endcompleteDate=this.state.endDate;
-      var enddate=endcompleteDate.getDate();
-      var endmonth =endcompleteDate.getMonth()+1;
-      var endyear = endcompleteDate.getFullYear();
-      
-          const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
-          const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
-  
-          await this.setState({
-              formattedDatestart:formatdDatestart,
-              formatdDateend: formatdDateend
-          })
-  
-      const res=await fetch(`https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${this.state.formattedDatestart}/${this.state.formatdDateend}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest',
-              'Authorization': `Token ${localStorage.getItem('token')}`,
-            },
-            responseType: 'blob',
-          }).then(res => res.blob())
-          .then(blob => Save_as(blob, 'test.csv'));
-      console.log(res);
-  
-          
-        //   const data = await res.json();
-        //   console.log(data);
-        //   if(res.status === 200){
-        //     this.setState({
-        //       attendance:data.attendance
-        //     })          
-        // }
-      
-  
-    }
-  handleOpen = () =>{
-    this.setState({
-      open: true
-    })
+const Myclasscard = (props) =>{
+
+  const [startDate,setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [formattedDateStart, setFormattedStartDate] = useState('');
+  const [formattedDateEnd, setFormattedDateEnd] = useState('');
+  const [open, setOpen] = useState(false);
+  const [openDownload, setOpenDownload] = useState(false);
+
+  const [downloadCall] = useDownloadHttp();
+
+  const handleChange = (date) => {
+    setStartDate(date);
   }
-  handleClickDownload =()=>{
-    this.setState({
-      openDownload: true
-    })
+  const handleChangeEnd = (date) => {
+    setEndDate(date);
   }
 
-  handleClose = () =>{
-    this.setState({
-      open: false
-    })
+  const downloadHandler = (subject, div) => {
+    console.log(subject);
+    var startcompleteDate=startDate;
+    var startdate=startcompleteDate.getDate();
+    var startmonth =startcompleteDate.getMonth()+1;
+    var startyear = startcompleteDate.getFullYear();
+    var endcompleteDate=endDate;
+    var enddate=endcompleteDate.getDate();
+    var endmonth =endcompleteDate.getMonth()+1;
+    var endyear = endcompleteDate.getFullYear();
+    const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
+    const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
+    setFormattedStartDate(formatdDatestart);
+    setFormattedDateEnd(formatdDateend);
+    downloadCall(`https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${formatdDatestart}/${formatdDateend}`) 
   }
-  handleCloseDownload = () =>{
-    this.setState({
-      openDownload: false
-    })
+  const handleOpen = () =>{
+    setOpen(true);
+  }
+
+  const handleClickDownload =()=>{
+    setOpenDownload(true);
+  }
+
+  const handleClose = () =>{
+    setOpen(false);
+  }
+
+  const handleCloseDownload = () =>{
+    setOpenDownload(false);
   }
   
-
-  async handleClick(subject,div){
-    const url = `https://wizdem.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/01-01-2019/01-05-2019`;
-    const res1 = await fetch(url,{
-      method: 'GET',
-      headers: {
-      'Content-Type': 'text/csv',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Authorization': `Token ${localStorage.getItem('token')}`,
-    },
-    responseType: 'blob',
-    }).then(res => res.blob())
-    .then(blob => Save_as(blob, 'test.csv'))
-  }
-
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
-
-  render() {
-    const { classes } = this.props;
+    const { classes } = props;
 
     return (
 
       // <div>
 
       <Grid container spacing={16}>
-          {this.props.class_subjects.map((subject) =>  {
+          {props.class_subjects.map((subject) =>  {
             return(
             <Grid item xs={12} sm={12} md={6}>
             <Card className={classes.card}>
@@ -170,14 +106,13 @@ class Myclasscard extends React.Component {
               </CardContent>
 
               <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button} onClick={this.handleClickDownload}>
-              {/* onClick={this.handleClick.bind(this,subject.name,subject.div)} */}
+              <Button variant="contained" color="primary" className={classes.button} onClick={handleClickDownload}>
                 Download
                 <CloudDownloadIcon className={classes.rightIcon} />
               </Button>
               <Dialog
-                open={this.state.openDownload}
-                onClose={this.handleCloseDownload}
+                open={openDownload}
+                onClose={handleCloseDownload}
                 aria-labelledby="form-dialog-title"
                 variant="outlined"
                 style={{padding: 20}}
@@ -187,7 +122,7 @@ class Myclasscard extends React.Component {
          SELECT Dates
          
        </DialogTitle>
-       <Button  onClick={this.handleCloseDownload} color="primary" style={{padding:'10px'}}>
+       <Button  onClick={handleCloseDownload} color="primary" style={{padding:'10px'}}>
             close
           </Button>
          </div>
@@ -195,15 +130,15 @@ class Myclasscard extends React.Component {
        <DialogActions>
          <Grid container spacing={24} style={{padding: 10}}>
            <Grid item xs={12} sm={12} md={4} >
-       <Datepicker startDate={this.state.startDate} handleChange={this.handleChange}  />
+       <Datepicker startDate={startDate} handleChange={handleChange}  />
 
            </Grid>
            <Grid item xs={12} sm={12} md={4}>
-       <Datepicker startDate={this.state.endDate} handleChange={this.handleChangeEnd} />
+       <Datepicker startDate={endDate} handleChange={handleChangeEnd} />
 
            </Grid>
            <Grid item xs={12} sm={12} md={4}>
-           <Button  onClick={this.Download(subject.name,subject.div)} color="primary" variant="contained" style={{padding:'10px'}}>
+           <Button  onClick={downloadHandler.bind(this,subject.name,subject.div)} color="primary" variant="contained" style={{padding:'10px'}}>
             Download
           </Button>
            </Grid>
@@ -213,13 +148,13 @@ class Myclasscard extends React.Component {
          
         </DialogActions>
      </Dialog>
-                <Button variant="contained" color="default" className={classes.button} onClick={this.handleOpen}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={handleOpen}>
                 View
               <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button>
                 <Dialog
-     open={this.state.open}
-     onClose={this.handleClose}
+     open={open}
+     onClose={handleClose}
      aria-labelledby="form-dialog-title"
      >
        <div style={{display: 'flex'}}> 
@@ -227,19 +162,19 @@ class Myclasscard extends React.Component {
          SELECT VIEWS
          
        </DialogTitle>
-       <Button  onClick={this.handleClose} color="primary" style={{padding:'10px'}}>
+       <Button  onClick={handleClose} color="primary" style={{padding:'10px'}}>
             close
           </Button>
          </div>
        
        <DialogActions>
        <Link to={{
-                pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View single date
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>
               <Link to={{
-                pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View range date
         <RemoveRedEyeIcon className={classes.rightIcon} />
               </Button></Link>
@@ -247,7 +182,7 @@ class Myclasscard extends React.Component {
         </DialogActions>
      </Dialog>
                 <Link to={{
-                pathname:`/editTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="default" className={classes.button}>
+                pathname:`/editTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 Edit
         <CreateIcon className={classes.rightIcon} />
               </Button></Link>
@@ -258,138 +193,13 @@ class Myclasscard extends React.Component {
 
           })}
 
-        {/* <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item md={6}  >
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom className={classes.content}><b>PYTHON</b></Typography>
-              <Typography variant="h6" gutterBottom className={classes.content}>S.E. A</Typography>
-              <Typography variant="title" gutterBottom className={classes.content}>Simple Text</Typography>
-
-            </CardContent>
-
-            <CardActions disableActionSpacing style={{}}>
-              <Button variant="contained" color="default" className={classes.button}>
-                Download
-        <CloudDownloadIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                View
-        <RemoveRedEyeIcon className={classes.rightIcon} />
-              </Button>
-              <Button variant="contained" color="default" className={classes.button}>
-                Edit
-        <CreateIcon className={classes.rightIcon} />
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid> */}
+        
 
 
       </Grid>
     );
   }
-}
+
 Myclasscard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
