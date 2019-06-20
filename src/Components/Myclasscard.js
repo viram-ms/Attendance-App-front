@@ -25,12 +25,15 @@ const styles = theme => ({
     padding: 2
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit*0.8,
+
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
   },
   rightIcon: {
+    marginRight: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
   },
 
@@ -171,12 +174,12 @@ const Myclasscard = (props) =>{
        <Link to={{
                 pathname:`/attendanceTable/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View single date
-        <RemoveRedEyeIcon className={classes.rightIcon} />
+        {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
               </Button></Link>
               <Link to={{
                 pathname:`/attendanceTable/range/${subject.div}`, state:subject}} style={{textDecoration:'none'}}><Button variant="contained" color="primary" className={classes.button}>
                 View range date
-        <RemoveRedEyeIcon className={classes.rightIcon} />
+        {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
               </Button></Link>
          
         </DialogActions>
